@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.msoft.carehomeapp.model;
 
 /**
@@ -9,5 +5,15 @@ package com.msoft.carehomeapp.model;
  * @author lucas
  */
 public class ActivitySuggestion {
-    
+    private String text;
+    public ActivitySuggestion(String text){
+        this.text = text;
+    }
+    public String getText(){
+        return text;
+    }
+    @Override
+    public String toString(){
+        return text;
+    }
 }
