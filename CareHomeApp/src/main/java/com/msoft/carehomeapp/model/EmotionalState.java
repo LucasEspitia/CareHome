@@ -15,10 +15,13 @@ public class EmotionalState {
     private Emotion emotion;
     private int intensity;
     
+    // --------------- Constructor ------------
     public EmotionalState(Emotion emotion, int intensity){
         this.emotion = emotion;
         this.intensity  = intensity;
     }
-    
+    // --------------- Getters---- ------------
+    public Emotion getEmotion(){ return this.emotion;}
+    public int getIntensity(){return this.intensity;}
     
 }

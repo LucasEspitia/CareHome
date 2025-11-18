@@ -12,19 +12,27 @@ import java.time.LocalDateTime;
  */
 public class EmotionalReport {
     
-    //Attributes
-    private EmotionalState currentState;
-    private Room currentRoom;
-    private LocalDateTime currentDate;
+    // --------------- Attributes -------------
+    private EmotionalState state;
+    private Room room;
+    private LocalDateTime stampDate;
     
-    //Constructor
+    // --------------- Constructor ------------
     public EmotionalReport(EmotionalState currentState, Room currentRoom){
-        this.currentState = currentState;
-        this.currentRoom = currentRoom;
-        this.currentDate = LocalDateTime.now();
+        this.state = currentState;
+        this.room = currentRoom;
+        this.stampDate = LocalDateTime.now();
+    }
+    public EmotionalReport(EmotionalState state, Room room, LocalDateTime date){
+        this.state = state;
+        this.room = room;
+        this.stampDate = date;
     }
     
-    
+    // ------------- Getters -----------------
+    public EmotionalState getEmotionalState(){return this.state;}
+    public Room getRoom(){return this.room;}
+    public LocalDateTime getDate(){return this.stampDate;}
     
     
 }

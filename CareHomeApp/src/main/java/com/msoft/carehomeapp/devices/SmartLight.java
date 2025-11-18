@@ -8,6 +8,6 @@ package com.msoft.carehomeapp.devices;
  *
  * @author lucas
  */
-public class SmartLight {
+public class SmartLight extends SmartDevice {
     
 }
