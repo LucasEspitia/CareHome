@@ -9,5 +9,10 @@ package com.msoft.carehomeapp.model;
  * @author lucas
  */
 public class Room {
+    private String name;
+    
+    public Room(String name){
+        this.name = name;
+    }
     
 }

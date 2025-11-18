@@ -2,17 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.msoft.carehomeapp.model;
+package com.msoft.carehomeapp.dao.implementation;
 
 /**
  *
  * @author lucas
  */
-public class Song {
-    private String genre;
-    private String artist;
-    private String title;
-    private String album;
-    
+public class PreferencesDAO {
     
 }

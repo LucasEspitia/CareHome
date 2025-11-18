@@ -8,6 +8,17 @@ package com.msoft.carehomeapp.model;
  *
  * @author lucas
  */
+
 public class EmotionalState {
+    
+    // --------------- Attributes ------------
+    private Emotion emotion;
+    private int intensity;
+    
+    public EmotionalState(Emotion emotion, int intensity){
+        this.emotion = emotion;
+        this.intensity  = intensity;
+    }
+    
     
 }
