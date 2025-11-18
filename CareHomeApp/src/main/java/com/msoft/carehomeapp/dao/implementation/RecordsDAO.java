@@ -18,14 +18,26 @@ import java.util.ArrayList;
  * @author lucas
  */
 public class RecordsDAO implements IRecords {
-    
+        
     private static final String APP_ID = "NXSruR1F9YMCGrIX6pfkQudf7copKvjBh48U6nt9";
     private static final String API_KEY = "Jb1wtKHG4n3Qao2qpUzla7MRxWKjmRvzRHLjxMMk";
     private static final String BASE_URL = "https://parseapi.back4app.com/classes/Records";
     
     private final Gson gson = new Gson();
     
-
+    //-----------------SingleTone----------------------
+    //Instance
+    private static RecordsDAO instance;
+    //Constructor
+    private RecordsDAO() {}
+    //Getting only the single instance
+    public static synchronized RecordsDAO getInstance() {
+        if (instance == null) {
+            instance = new RecordsDAO();
+        }
+        return instance;
+    }
+   
     @Override
     public void save(EmotionalReport report) {
         try {
