@@ -1,0 +1,15 @@
+
+<VBox alignment="CENTER" spacing="15" 
+    xmlns:fx="http://javafx.com/fxml" 
+    fx:controller="com.msoft.carehomeapp.ui.controllers.MusicSelectionController" 
+    prefWidth="400" prefHeight="450"> 
+
+    <Label text="Select a song" style="-fx-font-size: 18;" /> 
+
+    <ListView fx:id="listSongs" prefWidth="250" prefHeight="200" /> 
+
+    <CheckBox fx:id="checkNoMusic" text="No music" /> 
+
+    <Button fx:id="btnContinue" text="Continue" prefWidth="180" />
+    
+</VBox>

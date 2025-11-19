@@ -1,0 +1,15 @@
+<VBox alignment="CENTER" spacing="15" 
+    xmlns:fx="http://javafx.com/fxml" 
+    fx:controller="com.msoft.carehomeapp.ui.controllers.RegisterEmotionController" 
+    prefWidth="400" prefHeight="400"> 
+
+    <Label text="Select your emotion" style="-fx-font-size: 18;" /> 
+
+    <ComboBox fx:id="comboEmotion" prefWidth="200" /> 
+
+    <Label text="Intensity" /> 
+    <Slider fx:id="sliderIntensity" min="0" max="10" value="5" prefWidth="250" /> 
+
+    <Button fx:id="btnNext" text="Next" prefWidth="180" />
+
+</VBox>

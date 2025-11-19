@@ -1,6 +1,6 @@
 package com.msoft.carehomeapp.dao;
 
-import com.msoft.carehomeapp.dao.implementation.*;
+import com.msoft.carehomeapp.data.implementation.RecordsDAOImpl;
 import com.msoft.carehomeapp.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +24,9 @@ class SaveRecordsDAO {
 
         EmotionalState state = new EmotionalState(emotion, 7);
         Room room = new Room("TestRoom");
+        ActivitySuggestion activity = new ActivitySuggestion("Testing");
 
-        EmotionalReport report = new EmotionalReport(state, room);
+        EmotionalReport report = new EmotionalReport(state, room, activity);
 
         // ===== TEST SAVE =====
         assertDoesNotThrow(() -> dao.save(report), "save() should not throw");

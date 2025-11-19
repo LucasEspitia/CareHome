@@ -1,0 +1,70 @@
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" 
+fx:controller="com.msoft.carehomeapp.ui.controllers.RecordsListController" 
+prefWidth="800" prefHeight="600"> 
+
+    <!-- TOP: Filters --> 
+    <VBox spacing="10" BorderPane.alignment="CENTER" style="-fx-padding: 15;"> 
+        <Label text="Filter Records" style="-fx-font-size: 22;" /> 
+
+        <GridPane hgap="10" vgap="10"> 
+
+        <!-- Row 1 --> 
+            <Label text="Emotion:" GridPane.rowIndex="0" GridPane.columnIndex="0"/> 
+            
+            <ComboBox fx:id="comboEmotion" prefWidth="150" 
+                        GridPane.rowIndex="0" GridPane.columnIndex="1"/> 
+
+            <Label text="Type:" GridPane.rowIndex="0" GridPane.columnIndex="2"/> 
+            <ComboBox fx:id="comboType" prefWidth="150" 
+                        GridPane.rowIndex="0" GridPane.columnIndex="3"/> 
+
+            <!-- Row 2 --> 
+            <Label text="Room:" GridPane.rowIndex="1" GridPane.columnIndex="0"/> 
+            <ComboBox fx:id="comboRoom" prefWidth="150" 
+                        GridPane.rowIndex="1" GridPane.columnIndex="1"/> 
+
+            <Label text="Intensity (min):" GridPane.rowIndex="1" GridPane.columnIndex="2"/> 
+            <TextField fx:id="fieldIntensityMin" prefWidth="80" 
+                        GridPane.rowIndex="1" GridPane.columnIndex="3"/> 
+
+            <!-- Row 3 --> 
+            <Label text="Date since:" GridPane.rowIndex="2" GridPane.columnIndex="0"/> 
+            <DatePicker fx:id="dateFrom" 
+                        GridPane.rowIndex="2" GridPane.columnIndex="1"/> 
+
+            <Label text="Date until:" GridPane.rowIndex="2" GridPane.columnIndex="2"/> 
+            <DatePicker fx:id="dateTo" 
+                        GridPane.rowIndex="2" GridPane.columnIndex="3"/> 
+
+            <Label text="Intensity (max):" GridPane.rowIndex="3" GridPane.columnIndex="2"/> 
+            <TextField fx:id="fieldIntensityMax" prefWidth="80" 
+                        GridPane.rowIndex="3" GridPane.columnIndex="3"/> 
+
+        </GridPane> 
+
+        <!-- Buttons --> 
+        <HBox spacing="15" alignment="CENTER"> 
+            <Button fx:id="btnApplyFilters" text="Apply Filters" prefWidth="150"/> 
+            <Button fx:id="btnClearFilters" text="Clear" prefWidth="120"/> 
+            <Button fx:id="btnExport" text="Export" prefWidth="120"/> 
+            <Button fx:id="btnBack" text="Back" prefWidth="120"/> 
+        </HBox> 
+
+    </VBox> 
+
+        <!-- CENTER: Table --> 
+    <TableView fx:id="tableRecords" BorderPane.alignment="CENTER"> 
+        <columns> 
+            <TableColumn fx:id="colDate" text="Date" prefWidth="140"/> 
+            <TableColumn fx:id="colEmotion" text="Emotion" prefWidth="120"/> 
+            <TableColumn fx:id="colType" text="Type" prefWidth="100"/> 
+            <TableColumn fx:id="colIntensity" text="Intensity" prefWidth="90"/> 
+            <TableColumn <TableColumn fx:id="colRoom" text="Room" prefWidth="120"/>
+            <TableColumn fx:id="colActivity" text="Activity" prefWidth="160"/>
+            <TableColumn fx:id="colSong" text="Song" prefWidth="160"/>
+        </columns>
+
+    </TableView>
+
+</BorderPane>

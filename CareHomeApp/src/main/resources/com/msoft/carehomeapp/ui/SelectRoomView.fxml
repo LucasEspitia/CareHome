@@ -1,0 +1,12 @@
+<VBox alignment="CENTER" spacing="15" 
+    xmlns:fx="http://javafx.com/fxml" 
+    fx:controller="com.msoft.carehomeapp.ui.controllers.SelectRoomController" 
+    prefWidth="400" prefHeight="350"> 
+
+    <Label text="Which room are you in?" style="-fx-font-size: 18;" /> 
+
+    <ComboBox fx:id="comboRoom" prefWidth="200" /> 
+
+    <Button fx:id="btnNext" text="Continue" prefWidth="180" />
+
+</VBox>

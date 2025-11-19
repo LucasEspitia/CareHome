@@ -1,7 +1,7 @@
-package com.msoft.carehomeapp.dao.implementation;
+package com.msoft.carehomeapp.data.implementation;
 
 import com.google.gson.*;
-import com.msoft.carehomeapp.dao.IPreferencesDAO;
+import com.msoft.carehomeapp.data.IPreferencesDAO;
 import com.msoft.carehomeapp.model.Emotion;
 import com.msoft.carehomeapp.model.Preferences;
 import com.msoft.carehomeapp.model.Song;

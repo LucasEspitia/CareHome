@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.factory;
+package com.msoft.carehomeapp.model.factory;
 
 import com.msoft.carehomeapp.model.Emotion;
 import com.msoft.carehomeapp.model.Preferences;

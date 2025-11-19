@@ -1,0 +1,11 @@
+<VBox alignment="CENTER" spacing="20"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.msoft.carehomeapp.ui.controllers.HomeController"
+      prefWidth="400" prefHeight="420">
+
+    <Label text="CareHome App" style="-fx-font-size: 28;" />
+
+    <Button fx:id="btnRegisterMood" text="Register Emotional State" prefWidth="250"/>
+    <Button fx:id="btnViewRecords" text="Emotional Record" prefWidth="250"/>
+    <Button fx:id="btnPreferences" text="Emotional Preferences" prefWidth="250"/>
+</VBox>

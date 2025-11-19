@@ -5,7 +5,7 @@
 package com.msoft.carehomeapp.dao;
 
 import com.msoft.carehomeapp.model.*;
-import com.msoft.carehomeapp.dao.implementation.RecordsDAOImpl;
+import com.msoft.carehomeapp.data.implementation.RecordsDAOImpl;
 import com.msoft.carehomeapp.model.ReportFilter;
 
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,8 @@ public class FilterRecordsDAO {
                         new Emotion(Emotion.EmotionName.HAPPY, Emotion.EmotionType.POSITIVE),
                         8
                 ),
-                new Room("Kitchen")
+                new Room("Kitchen"),
+                new ActivitySuggestion("Dance")
         );
 
         EmotionalReport r2 = new EmotionalReport(
@@ -43,7 +44,8 @@ public class FilterRecordsDAO {
                         new Emotion(Emotion.EmotionName.SAD, Emotion.EmotionType.NEGATIVE),
                         3
                 ),
-                new Room("Bedroom")
+                new Room("Bedroom"),
+                new ActivitySuggestion("Write")
         );
 
         EmotionalReport r3 = new EmotionalReport(
@@ -51,7 +53,8 @@ public class FilterRecordsDAO {
                         new Emotion(Emotion.EmotionName.HAPPY, Emotion.EmotionType.POSITIVE),
                         4
                 ),
-                new Room("Living Room")
+                new Room("Living Room"),
+                 new ActivitySuggestion("Run")
         );
 
         EmotionalReport r4 = new EmotionalReport(
@@ -59,7 +62,8 @@ public class FilterRecordsDAO {
                         new Emotion(Emotion.EmotionName.CALM, Emotion.EmotionType.NEUTRAL),
                         6
                 ),
-                new Room("Kitchen")
+                new Room("Kitchen"),
+                new ActivitySuggestion("Test")
         );
 
         dao.save(r1);

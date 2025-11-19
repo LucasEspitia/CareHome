@@ -1,7 +1,7 @@
-package com.msoft.carehomeapp.factory;
+package com.msoft.carehomeapp.model.factory;
 
-import com.msoft.carehomeapp.devices.AudioDevice;
-import com.msoft.carehomeapp.devices.LightDevice;
+import com.msoft.carehomeapp.data.devices.implementation.AudioDevice;
+import com.msoft.carehomeapp.data.devices.implementation.LightDevice;
 import com.msoft.carehomeapp.model.Room;
 
 /**

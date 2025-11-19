@@ -4,8 +4,8 @@
  */
 package com.msoft.carehomeapp.model;
 
-import com.msoft.carehomeapp.devices.AudioDevice;
-import com.msoft.carehomeapp.devices.LightDevice;
+import com.msoft.carehomeapp.data.devices.implementation.AudioDevice;
+import com.msoft.carehomeapp.data.devices.implementation.LightDevice;
 
 /**
  *

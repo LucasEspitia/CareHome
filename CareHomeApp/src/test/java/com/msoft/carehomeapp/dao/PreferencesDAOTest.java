@@ -1,6 +1,7 @@
 package com.msoft.carehomeapp.dao;
 
-import com.msoft.carehomeapp.dao.implementation.PreferencesDAOImpl;
+import com.msoft.carehomeapp.data.IPreferencesDAO;
+import com.msoft.carehomeapp.data.implementation.PreferencesDAOImpl;
 import com.msoft.carehomeapp.model.Emotion;
 import com.msoft.carehomeapp.model.Preferences;
 import com.msoft.carehomeapp.model.Song;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 public class PreferencesDAOTest {
 
-    private final IPreferencesDAO dao = new PreferencesDAOImpl();
+    private final IPreferencesDAO dao = PreferencesDAOImpl.getInstance();
 
     @Test
     public void testSaveAndLoadPreferences() {

@@ -1,8 +1,8 @@
 package com.msoft.carehomeapp.business.managers;
 
+import com.msoft.carehomeapp.data.IRecordsDAO;
 import com.msoft.carehomeapp.business.services.*;
-import com.msoft.carehomeapp.dao.*;
-import com.msoft.carehomeapp.factory.ActivitySuggestionFactory;
+import com.msoft.carehomeapp.model.factory.ActivitySuggestionFactory;
 import com.msoft.carehomeapp.model.*;
 import java.util.List;
 
@@ -81,11 +81,6 @@ public class EmotionManager {
         EmotionalReport draft = new EmotionalReport(state, room, null);
         
         return new Response(musicMsg, lightsMsg, activities, draft);
-    }
-    
-    public void finalizeActivity(EmotionalReport draft, ActivitySuggestion chosen) {
-        draft.setActivity(chosen);
-        recordsDAO.save(draft);
     }
     
      private Emotion.EmotionType determineType(Emotion.EmotionName n) {

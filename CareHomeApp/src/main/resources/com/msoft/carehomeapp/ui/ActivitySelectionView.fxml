@@ -1,0 +1,13 @@
+<VBox alignment="CENTER" spacing="15" 
+    xmlns:fx="http://javafx.com/fxml" 
+    fx:controller="com.msoft.carehomeapp.ui.controllers.ActivitySelectionController" 
+    prefWidth="400" prefHeight="450"
+> 
+
+    <Label text="Activity Suggestions" style="-fx-font-size: 18;" /> 
+
+    <ListView fx:id="listActivities" prefWidth="250" prefHeight="200" /> 
+
+    <Button fx:id="btnConfirm" text="Confirm" prefWidth="180" />
+
+</VBox>

@@ -1,7 +1,7 @@
 package com.msoft.carehomeapp.business.managers;
 
-import com.msoft.carehomeapp.dao.IPreferencesDAO;
-import com.msoft.carehomeapp.factory.PreferencesFactory;
+import com.msoft.carehomeapp.data.IPreferencesDAO;
+import com.msoft.carehomeapp.model.factory.PreferencesFactory;
 import com.msoft.carehomeapp.model.Emotion;
 import com.msoft.carehomeapp.model.Preferences;
 import com.msoft.carehomeapp.model.Song;

@@ -1,7 +1,7 @@
 package com.msoft.carehomeapp.business.services;
 
+import com.msoft.carehomeapp.data.devices.implementation.AudioDevice;
 import com.msoft.carehomeapp.model.*;
-import com.msoft.carehomeapp.devices.*;
 
 /**
  *

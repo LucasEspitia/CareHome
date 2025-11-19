@@ -1,6 +1,6 @@
 package com.msoft.carehomeapp.business.services;
 
-import com.msoft.carehomeapp.devices.LightDevice;
+import com.msoft.carehomeapp.data.devices.implementation.LightDevice;
 import com.msoft.carehomeapp.model.*;
 
 /**

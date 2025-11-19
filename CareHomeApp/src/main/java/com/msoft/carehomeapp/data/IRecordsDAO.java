@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.dao;
+package com.msoft.carehomeapp.data;
 
 import com.google.gson.JsonObject;
 import com.msoft.carehomeapp.model.*;

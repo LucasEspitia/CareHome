@@ -1,6 +1,6 @@
-package com.msoft.carehomeapp.dao.implementation;
+package com.msoft.carehomeapp.data.implementation;
 
-import com.msoft.carehomeapp.dao.IRecordsDAO;
+import com.msoft.carehomeapp.data.IRecordsDAO;
 import com.msoft.carehomeapp.model.*;
 
 import java.util.List;

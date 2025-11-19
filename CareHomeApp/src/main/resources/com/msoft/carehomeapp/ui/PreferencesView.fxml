@@ -1,0 +1,28 @@
+
+<VBox alignment="CENTER" spacing="15" 
+        xmlns:fx="http://javafx.com/fxml" 
+        fx:controller="com.msoft.carehomeapp.ui.controllers.PreferencesController" 
+        prefWidth="450" ​​prefHeight="520"> 
+
+    <Label text="Preferences" style="-fx-font-size: 22;" /> 
+
+    <HBox spacing="10" alignment="CENTER"> 
+    <Label text="Emotion:"/> 
+    <ComboBox fx:id="comboEmotion" prefWidth="150"/> 
+    </HBox> 
+
+    <Label text="Song 1"/> 
+    <TextField fx:id="fieldSong1" prefWidth="250"/> 
+
+    <Label text="Song 2"/> 
+    <TextField fx:id="fieldSong2" prefWidth="250"/> 
+
+    <Label text="Song 3"/> 
+    <TextField fx:id="fieldSong3" prefWidth="250"/> 
+
+    <Label text="Lights Preference"/> 
+    <TextField fx:id="fieldLights" prefWidth="250"/> 
+
+    <Button fx:id="btnSave" text="Save" prefWidth="180"/>
+
+</VBox>
