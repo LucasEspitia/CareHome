@@ -2,7 +2,6 @@ package com.msoft.carehomeapp.business.services;
 
 import com.msoft.carehomeapp.model.*;
 import com.msoft.carehomeapp.devices.*;
-import java.util.List;
 
 /**
  *
