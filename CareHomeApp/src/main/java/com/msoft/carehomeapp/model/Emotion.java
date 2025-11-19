@@ -14,9 +14,9 @@ public class Emotion {
     private EmotionType type;
     
     public static enum EmotionName{
-        HAPPY, EXCITED, SAD, DEPRESSED, 
-        ANXIOUS, FEAR, SURPRISED, CONFUSED,
-        CALM, PEACEFUL, INSPIRED, MOTIVATED
+        HAPPY, EXCITED,  INSPIRED, MOTIVATED,
+        SAD, DEPRESSED, ANXIOUS, FEAR, INSECURE,
+        RELAX, CALM, PEACEFUL
     };
     
    
