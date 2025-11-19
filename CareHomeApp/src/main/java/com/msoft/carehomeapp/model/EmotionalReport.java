@@ -49,4 +49,8 @@ public class EmotionalReport {
         return activity;
     }
     
+    // ------------- Setters ----------------
+    public void setActivity(ActivitySuggestion activity){
+        this.activity = activity;
+    }
 }

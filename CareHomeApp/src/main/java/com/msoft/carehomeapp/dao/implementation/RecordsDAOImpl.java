@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * @author lucas
  */
 public class RecordsDAOImpl implements IRecordsDAO {
-        
+    // ---------------- BACK4APP CONF -------------   
     private static final String APP_ID = "NXSruR1F9YMCGrIX6pfkQudf7copKvjBh48U6nt9";
     private static final String API_KEY = "Jb1wtKHG4n3Qao2qpUzla7MRxWKjmRvzRHLjxMMk";
     private static final String BASE_URL = "https://parseapi.back4app.com/classes/Records";

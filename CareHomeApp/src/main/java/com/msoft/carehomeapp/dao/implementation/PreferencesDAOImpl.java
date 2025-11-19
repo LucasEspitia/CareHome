@@ -17,12 +17,27 @@ import java.util.*;
  * @author lucas
  */
 public class PreferencesDAOImpl implements IPreferencesDAO {
+    // ---------------- BACK4APP CONF -------------
     private static final String APP_ID = "NXSruR1F9YMCGrIX6pfkQudf7copKvjBh48U6nt9";
     private static final String REST_KEY = "Jb1wtKHG4n3Qao2qpUzla7MRxWKjmRvzRHLjxMMk";
     private static final String BASE_URL = "https://parseapi.back4app.com/classes/Preferences";
-    
     private final Gson gson = new GsonBuilder().create();
+    
     private String preferencesObjectId = null;
+    
+    //------------ Singletone------------
+    //Instance
+    private static PreferencesDAOImpl instance;
+    //Constructor
+    private PreferencesDAOImpl() {}
+    //Getting only the single instance
+    public static synchronized PreferencesDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new PreferencesDAOImpl();
+        }
+        return instance;
+    }   
+    
 
     @Override
       public Preferences loadPreferences() {
@@ -94,7 +109,7 @@ public class PreferencesDAOImpl implements IPreferencesDAO {
       
     @Override
     public void saveOrUpdate(Preferences prefs) {
-try {
+        try {
             if (preferencesObjectId == null) {
                 findPreferencesObjectId();
             }
