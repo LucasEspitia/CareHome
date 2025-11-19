@@ -40,6 +40,11 @@ public class LightDevice implements SmartDevice {
     } 
     
     //----------- Methods ----------------
+    /**
+     * It implements a simulated connection test, which complies with UC-07. 
+     * Although it is simulated, its logic can be changed in the future to do
+     * it in the real world.
+     */
     @Override
     public boolean testConnection(){
         System.out.println("[LightDevice] Testing connection... OK");
