@@ -9,5 +9,5 @@ package com.msoft.carehomeapp.devices;
  * @author lucas
  */
 public interface SmartDevice {
-    
+    boolean testConnection();
 }

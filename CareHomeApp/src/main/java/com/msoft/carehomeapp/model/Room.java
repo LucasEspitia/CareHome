@@ -4,16 +4,49 @@
  */
 package com.msoft.carehomeapp.model;
 
+import com.msoft.carehomeapp.devices.AudioDevice;
+import com.msoft.carehomeapp.devices.LightDevice;
+
 /**
  *
  * @author lucas
  */
 public class Room {
+    // --------- Attributes ---------
     private String name;
+    private AudioDevice audio;
+    private LightDevice light;
     
+    // -------- Constructors --------
     public Room(String name){
         this.name = name;
     }
     
-    public String getName(){return name;}     
+    public Room(String name, AudioDevice audio, LightDevice light){
+        this.name = name;
+        this.audio = audio;
+        this.light = light;
+    }
+    
+    // ---------- Getters ------------
+    public String getName(){
+        return name;
+    }     
+
+    public AudioDevice getAudio() { 
+        return audio;
+    }
+    
+    public LightDevice getLight(){
+        return light;
+    }
+    
+    // ---------- Setters ------------
+    public void setAudio(AudioDevice audio){
+        this.audio = audio;
+    }
+    
+    public void setLight(LightDevice light){
+        this.light = light;
+    }
 }
