@@ -14,7 +14,7 @@ class SaveRecordsDAO {
     @Test
     void testSaveAndGetAll() {
 
-        RecordsDAO dao = new RecordsDAO();
+        RecordsDAOImpl dao = RecordsDAOImpl.getInstance();
 
         // ===== CREATE TEST OBJECT =====
         Emotion emotion = new Emotion(

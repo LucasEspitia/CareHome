@@ -5,7 +5,7 @@
 package com.msoft.carehomeapp.dao;
 
 import com.msoft.carehomeapp.model.*;
-import com.msoft.carehomeapp.dao.implementation.RecordsDAO;
+import com.msoft.carehomeapp.dao.implementation.RecordsDAOImpl;
 import com.msoft.carehomeapp.model.ReportFilter;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author lucas
  */
 public class FilterRecordsDAO {
-        RecordsDAO dao = new RecordsDAO();
+        RecordsDAOImpl dao = RecordsDAOImpl.getInstance();
 
     @Test
     void testFilterFunctionality() {

@@ -14,5 +14,29 @@ public class Song {
     private String title;
     private String album;
     
+    public Song(String title, String artist, String album, String genre){
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+    };
+    
+    public Song(){};
+    
+    public String getGenre(){
+      return genre;  
+    };
+    
+    public String getArtist(){
+        return artist;
+    }
+    
+    public String getTitle(){
+        return title;
+    }
+    
+    public String getAlbum(){
+        return album;
+    }
     
 }

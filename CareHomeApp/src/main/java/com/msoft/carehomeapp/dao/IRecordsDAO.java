@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author lucas
  */
-public interface IRecords {
+public interface IRecordsDAO {
     
     void save(EmotionalReport report);
     
