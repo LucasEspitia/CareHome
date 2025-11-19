@@ -57,8 +57,9 @@ public class RecordsDAOImpl implements IRecordsDAO {
             json.addProperty("emotionType", report.getEmotionalState().getEmotion().getType().name());
             json.addProperty("intensity", report.getEmotionalState().getIntensity());
             json.addProperty("room", report.getRoom().getName());
+            json.addProperty("activity", report.getActivity().getText());
 
-            // Fecha correcta para Parse Server
+            
             JsonObject dateObj = new JsonObject();
             dateObj.addProperty("__type", "Date");
             dateObj.addProperty("iso", report.getDate().toString());
@@ -73,8 +74,7 @@ public class RecordsDAOImpl implements IRecordsDAO {
 
             conn.disconnect();
         } catch (IOException e){
-            e.printStackTrace();
-        }
+            System.err.println("Error saving reports: " + e);        }
     }
 
     @Override
@@ -176,28 +176,30 @@ public class RecordsDAOImpl implements IRecordsDAO {
                 for (JsonElement element : results) {
                     JsonObject obj = element.getAsJsonObject();
 
-                    // ==== EMOTION ====
+                    // ------ EMOTION ------
                     Emotion.EmotionName name =
                             Emotion.EmotionName.valueOf(obj.get("emotionName").getAsString());
                     Emotion.EmotionType type =
                             Emotion.EmotionType.valueOf(obj.get("emotionType").getAsString());
                     Emotion emotion = new Emotion(name, type);
 
-                    // ==== STATE ====
+                    // ------ STATE ------
                     int intensity = obj.get("intensity").getAsInt();
                     EmotionalState state = new EmotionalState(emotion, intensity);
 
-                    // ==== ROOM ====
+                    // ------ ROOM ------
                     Room room = new Room(obj.get("room").getAsString());
-
-                    // ==== DATE ====
+                    
+                    // ------ Activity --------
+                    ActivitySuggestion activity = new ActivitySuggestion(obj.get("activity").getAsString());
+                    // ------ DATE ------
                     JsonObject dateObj = obj.getAsJsonObject("date"); // <-- correct
                     String iso = dateObj.get("iso").getAsString();
                     LocalDateTime date = LocalDateTime.parse(iso.substring(0, iso.length() - 1)); 
                     // Remove final 'Z' to parse to LocalDateTime
 
-                    // ==== REPORT ====
-                    EmotionalReport report = new EmotionalReport(state, room, date);
+                    // ------ REPORT ------
+                    EmotionalReport report = new EmotionalReport(state, room, activity, date);
 
                     list.add(report);
                 }
@@ -205,8 +207,8 @@ public class RecordsDAOImpl implements IRecordsDAO {
 
             conn.disconnect();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error fetching reports: " + e);
         }
 
         return list;

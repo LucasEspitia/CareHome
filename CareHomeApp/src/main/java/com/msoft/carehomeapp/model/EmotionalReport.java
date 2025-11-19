@@ -15,24 +15,38 @@ public class EmotionalReport {
     // --------------- Attributes -------------
     private EmotionalState state;
     private Room room;
+    private ActivitySuggestion activity;
     private LocalDateTime stampDate;
     
     // --------------- Constructor ------------
-    public EmotionalReport(EmotionalState currentState, Room currentRoom){
+    public EmotionalReport(EmotionalState currentState, Room currentRoom, ActivitySuggestion activity){
         this.state = currentState;
         this.room = currentRoom;
+        this.activity = activity;
         this.stampDate = LocalDateTime.now();
     }
-    public EmotionalReport(EmotionalState state, Room room, LocalDateTime date){
+    public EmotionalReport(EmotionalState state, Room room, ActivitySuggestion activity, LocalDateTime date){
         this.state = state;
         this.room = room;
+        this.activity = activity;
         this.stampDate = date;
     }
     
     // ------------- Getters -----------------
-    public EmotionalState getEmotionalState(){return this.state;}
-    public Room getRoom(){return this.room;}
-    public LocalDateTime getDate(){return this.stampDate;}
+    public EmotionalState getEmotionalState(){
+        return this.state;
+    }
     
+    public Room getRoom(){
+        return this.room;
+    }
+    
+    public LocalDateTime getDate(){
+        return this.stampDate;
+    }
+    
+    public ActivitySuggestion getActivity(){
+        return activity;
+    }
     
 }

@@ -8,6 +8,6 @@ package com.msoft.carehomeapp.devices;
  *
  * @author lucas
  */
-public class AudioDevice extends SmartDevice {
+public class AudioDevice implements SmartDevice {
     
 }
