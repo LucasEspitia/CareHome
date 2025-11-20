@@ -13,6 +13,7 @@ public class ActivitySelectionController {
     @FXML private ListView<ActivitySuggestion> listActivities;
     @FXML private Button btnConfirm;
 
+
     private final RecordsManager recordsManager = AppContext.getRecordsManager();
 
     @FXML
@@ -33,8 +34,8 @@ public class ActivitySelectionController {
             recordsManager.saveReport(draft);
 
             RegisterSession.reset();
-
-            SceneSwitcher.switchScene(btnConfirm, "HomeView.fxml");
+            
+            SceneSwitcher.switchScene(e, "HomeView.fxml");
         });
     }
 }

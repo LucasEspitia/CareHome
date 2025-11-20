@@ -15,14 +15,15 @@ public class HomeController {
     
     @FXML
     public void initialize(){
+        
         btnRegisterMood.setOnAction(e ->
-                SceneSwitcher.switchScene(btnRegisterMood, "RegisterEmotionView.fxml")
+                SceneSwitcher.switchScene(e, "RegisterEmotionView.fxml")
         );
         btnViewRecords.setOnAction(e ->
-                SceneSwitcher.switchScene(btnViewRecords, "RecordsListView.fxml"));
+                SceneSwitcher.switchScene(e, "RecordsListView.fxml"));
 
         btnPreferences.setOnAction(e ->
-                SceneSwitcher.switchScene(btnPreferences, "PreferencesView.fxml"));
+                SceneSwitcher.switchScene(e, "PreferencesView.fxml"));
 
         
     }

@@ -16,6 +16,8 @@ public class MusicSelectionController {
     @FXML private ListView<Song> listSongs;
     @FXML private CheckBox checkNoMusic;
     @FXML private Button btnContinue;
+   
+
 
     private final EmotionManager emotionManager = AppContext.getEmotionManager();
     private final PreferencesManager prefsManager = AppContext.getPreferencesManager();
@@ -42,8 +44,7 @@ public class MusicSelectionController {
                     RegisterSession.room,
                     RegisterSession.selectedSong
             );
-
-            SceneSwitcher.switchScene(btnContinue, "ActivitySelectionView.fxml");
+            SceneSwitcher.switchScene(e, "ActivitySelectionView.fxml");
         });
     }
 }

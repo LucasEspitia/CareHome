@@ -12,20 +12,21 @@ import com.msoft.carehomeapp.ui.SceneSwitcher;
  */
 public class SelectRoomController {
 
- @FXML private ComboBox<Room> comboRoom;
+    @FXML private ComboBox<Room> comboRoom;
     @FXML private Button btnNext;
-
+    
     @FXML
     public void initialize() {
-
+        
         comboRoom.getItems().addAll(RoomFactory.getListRooms());
 
         btnNext.setOnAction(e -> {
             Room selected = comboRoom.getValue();
             if (selected == null) return;
 
-            RegisterSession.room = selected; 
-            SceneSwitcher.switchScene(btnNext, "MusicSelectionView.fxml");
+            RegisterSession.room = selected;        
+            
+            SceneSwitcher.switchScene(e, "MusicSelectionView.fxml");
         });
     }
 }

@@ -16,8 +16,7 @@ public class RegisterEmotionController {
     @FXML private Button btnNext;
 
     @FXML
-    public void initialize() {
-
+    public void initialize() {        
         comboEmotion.getItems().addAll(Emotion.EmotionName.values());
 
         btnNext.setOnAction(e -> {
@@ -25,8 +24,8 @@ public class RegisterEmotionController {
 
             RegisterSession.emotionName = comboEmotion.getValue();
             RegisterSession.intensity = (int) sliderIntensity.getValue();
-
-            SceneSwitcher.switchScene(btnNext, "SelectRoomView.fxml");
+            
+            SceneSwitcher.switchScene(e, "SelectRoomView.fxml");
         });
     }
     
