@@ -21,7 +21,7 @@ public class MusicService {
         //UC01 - 8a: Music playback fails
         //No connection
         if(audio == null){
-            return "[MusicService] No speaker in" + room.getName() 
+            return "[MusicService] No speaker in " + room.getName() 
                     +  ". Music playback unavailable; adjusting lighting only."; 
         }
         //Fail test
@@ -32,7 +32,6 @@ public class MusicService {
         
         // All ok -> playback
         audio.play(selectedSong.getTitle());
-        System.out.print("Playing audio: " + selectedSong.getTitle());
         return null; // No message. Audio playing.
     }
     

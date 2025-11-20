@@ -6,6 +6,7 @@ import com.msoft.carehomeapp.model.Room;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
 import com.msoft.carehomeapp.ui.RegisterSession;
 import com.msoft.carehomeapp.ui.SceneSwitcher;
+import com.msoft.carehomeapp.ui.utils.AlertUtils;
 /**
  *
  * @author lucas
@@ -22,7 +23,10 @@ public class SelectRoomController {
 
         btnNext.setOnAction(e -> {
             Room selected = comboRoom.getValue();
-            if (selected == null) return;
+            if (selected == null) {
+                AlertUtils.warning("Missing Selection", "Please select a room.");
+                return;
+            }
 
             RegisterSession.room = selected;        
             

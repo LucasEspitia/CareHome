@@ -22,7 +22,7 @@ public class Song {
     };
     
     public Song(){};
-    
+        
     public String getGenre(){
       return genre;  
     };
@@ -38,5 +38,11 @@ public class Song {
     public String getAlbum(){
         return album;
     }
+    
+    @Override
+    public String toString() {
+        return title + " - " + artist;
+    }
+    
     
 }

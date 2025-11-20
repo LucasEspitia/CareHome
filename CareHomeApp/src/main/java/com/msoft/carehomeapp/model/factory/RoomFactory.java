@@ -22,6 +22,13 @@ public class RoomFactory {
         listRooms.add(createLivingRoom());
     }
     
+    public static List<Room> getListRooms() {
+        if (listRooms == null) {
+            createRooms();
+        }
+        return listRooms;
+    }
+    
     public static Room createLivingRoom() {
         return new Room("Living Room", new AudioDevice(), new LightDevice());
     }
@@ -38,7 +45,5 @@ public class RoomFactory {
         return new Room("Bathroom", null, null);
     }
     
-    public static List<Room> getListRooms(){
-        return listRooms;
-    }
+
 }

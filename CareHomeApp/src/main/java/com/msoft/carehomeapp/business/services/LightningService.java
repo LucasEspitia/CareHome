@@ -33,6 +33,7 @@ public class LightningService {
         
         //All ok -> Adjust light
         light.setColor(color);
+        System.out.print("Adjusting Lights");
         return null; //No message. Lights are adjusted.
     }
 }

@@ -72,6 +72,7 @@ public class EmotionManager {
                 emotion.getType(),
                 prefs
         );
+
         
         // Get Activitys 
         List<ActivitySuggestion> activities = 

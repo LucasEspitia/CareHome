@@ -4,6 +4,8 @@ import com.msoft.carehomeapp.data.*;
 import com.msoft.carehomeapp.data.implementation.*;
 import com.msoft.carehomeapp.business.managers.*;
 import com.msoft.carehomeapp.business.services.*;
+import com.msoft.carehomeapp.model.factory.ActivitySuggestionFactory;
+import com.msoft.carehomeapp.model.factory.RoomFactory;
 import com.msoft.carehomeapp.ui.SceneSwitcher;
 
 import javafx.application.Application;
@@ -40,7 +42,7 @@ public class CareHomeApp extends Application  {
                 preferencesManager,
                 recordsManager
         );
-        
+           
         SceneSwitcher.setMainStage(stage);
         SceneSwitcher.swichTo("HomeView.fxml");
         stage.show();
