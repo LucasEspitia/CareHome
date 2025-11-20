@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -58,7 +57,8 @@
 
     <build>
         <plugins>
-            <!-- Deactivating test -->
+
+            <!-- Disable tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -67,27 +67,14 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+
             <!-- JavaFX Maven Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
-
-                <executions>
-                    <execution>
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>${exec.mainClass}</mainClass>
-                        </configuration>
-                    </execution>
-                </executions>
-
                 <configuration>
                     <mainClass>${exec.mainClass}</mainClass>
-                    <launcher>CareHomeApp</launcher>
-                    <jvmArgs>
-                        --add-opens java.base/java.lang=ALL-UNNAMED
-                    </jvmArgs>
                 </configuration>
             </plugin>
 

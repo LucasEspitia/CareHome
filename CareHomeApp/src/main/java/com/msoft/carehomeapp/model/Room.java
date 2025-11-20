@@ -49,4 +49,9 @@ public class Room {
     public void setLight(LightDevice light){
         this.light = light;
     }
+    
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }

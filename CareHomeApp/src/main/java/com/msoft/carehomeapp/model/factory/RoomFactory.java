@@ -3,18 +3,23 @@ package com.msoft.carehomeapp.model.factory;
 import com.msoft.carehomeapp.data.devices.implementation.AudioDevice;
 import com.msoft.carehomeapp.data.devices.implementation.LightDevice;
 import com.msoft.carehomeapp.model.Room;
+import java.util.ArrayList;
 
+import java.util.List;
 /**
  *
  * @author lucas
  */
 public class RoomFactory {
     
+    private static List<Room> listRooms;
+    
     public static void createRooms(){
-        createBathroom();
-        createBedroom();
-        createKitchen();
-        createLivingRoom();
+        listRooms = new ArrayList<Room>();
+        listRooms.add(createBathroom());
+        listRooms.add(createBedroom());
+        listRooms.add(createKitchen());
+        listRooms.add(createLivingRoom());
     }
     
     public static Room createLivingRoom() {
@@ -31,5 +36,9 @@ public class RoomFactory {
 
     public static Room createBathroom() {
         return new Room("Bathroom", null, null);
+    }
+    
+    public static List<Room> getListRooms(){
+        return listRooms;
     }
 }

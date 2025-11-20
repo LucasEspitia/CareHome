@@ -83,7 +83,7 @@ public class EmotionManager {
         return new Response(musicMsg, lightsMsg, activities, draft);
     }
     
-     private Emotion.EmotionType determineType(Emotion.EmotionName n) {
+     public static Emotion.EmotionType determineType(Emotion.EmotionName n) {
         switch (n) {
             case HAPPY, EXCITED,  INSPIRED, MOTIVATED:
                 return Emotion.EmotionType.POSITIVE;
