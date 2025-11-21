@@ -13,11 +13,12 @@ public class ActivitySuggestionFactory {
     
     static {
         SUGGESTIONS.put(Emotion.EmotionType.POSITIVE, List.of(
-            new ActivitySuggestion("Light exercise or a walk"),
+            new ActivitySuggestion("Light exercise"),
             new ActivitySuggestion("Dance"),
-            new ActivitySuggestion("Write in a gratitude journal"),
+            new ActivitySuggestion("Write"),
             new ActivitySuggestion("Call a friend"),
-            new ActivitySuggestion("Work on a hobby")
+            new ActivitySuggestion("Work on a hobby"),
+            new ActivitySuggestion("Walk")
         ));
         
         SUGGESTIONS.put(Emotion.EmotionType.NEUTRAL, List.of(
@@ -30,7 +31,7 @@ public class ActivitySuggestionFactory {
         SUGGESTIONS.put(Emotion.EmotionType.NEGATIVE, List.of(
             new ActivitySuggestion("Breathing exercise"),
             new ActivitySuggestion("Gentle stretches"),
-            new ActivitySuggestion("Take a break from your phone"),
+            new ActivitySuggestion("No phone"),
             new ActivitySuggestion("Write how you feel"),
             new ActivitySuggestion("Call an emergency person")
         ));

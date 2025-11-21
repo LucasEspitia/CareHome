@@ -53,4 +53,14 @@ public class EmotionalReport {
     public void setActivity(ActivitySuggestion activity){
         this.activity = activity;
     }
+  @Override
+    public String toString() {
+        return "Report{" +
+                "date=" + stampDate +
+                ", emotion=" + state.getEmotion().getName() +
+                ", intensity=" + state.getIntensity() +
+                ", room=" + room.getName() +
+                ", activity=" + activity.getText() +
+                '}';
+    }
 }

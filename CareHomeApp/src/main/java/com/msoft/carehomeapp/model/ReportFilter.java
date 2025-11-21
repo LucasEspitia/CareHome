@@ -56,11 +56,10 @@ public class ReportFilter {
     public void setToDate(LocalDateTime date){
         this.toDate = date;
     }
-    public void setMinIntensity(int intensity){
+    public void setMinIntensity(Integer intensity){
         this.minIntensity = intensity;
     }
-     public void setMaxIntensity(int intensity){
+     public void setMaxIntensity(Integer intensity){
         this.maxIntensity = intensity;
     }
-    
 }
