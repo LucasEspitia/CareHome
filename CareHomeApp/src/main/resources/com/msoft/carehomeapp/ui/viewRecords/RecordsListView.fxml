@@ -68,7 +68,7 @@ prefWidth="800" prefHeight="600">
         <HBox spacing="10" alignment="TOP_CENTER" style="-fx-padding: 10;">
         <TableView fx:id="tableRecords"
                    minWidth="600" maxWidth="680"
-                   minHeight="100" maxHeight="270"
+                   minHeight="100" maxHeight="250"
         > 
             <columns> 
                 <TableColumn fx:id="colDate" text="Date" minWidth="80"/>

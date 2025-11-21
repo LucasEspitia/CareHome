@@ -1,13 +1,16 @@
 package com.msoft.carehomeapp.ui.controllers.viewRecords;
 
 import com.msoft.carehomeapp.AppContext;
+import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
 import com.msoft.carehomeapp.model.Emotion;
 import com.msoft.carehomeapp.model.EmotionalReport;
 import com.msoft.carehomeapp.model.ReportFilter;
+import com.msoft.carehomeapp.model.Room;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
 import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
@@ -30,9 +33,9 @@ public class RecordsListController {
     
     @FXML private ComboBox comboEmotion;
     @FXML private ComboBox comboType;
-    @FXML private ComboBox comboRoom;
-    @FXML private ComboBox comboIntensityMin;
-    @FXML private ComboBox comboIntensityMax;
+    @FXML private ComboBox<String> comboRoom;
+    @FXML private ComboBox<Integer> comboIntensityMin;
+    @FXML private ComboBox<Integer> comboIntensityMax;
     
     @FXML private DatePicker dateFrom;
     @FXML private DatePicker dateTo;
@@ -43,7 +46,7 @@ public class RecordsListController {
     @FXML private Button btnBack;
 
     private final RecordsManager recordsManager = AppContext.getRecordsManager();
-
+    private final EmotionManager emotionManager = AppContext.getEmotionManager();
 
     private int currentOffset = 0;
     private final int batchSize = 10;
@@ -53,16 +56,20 @@ public class RecordsListController {
     @FXML
     public void initialize() {
         
-        //Init value for comboBoxes
+        disableFutureDates(dateFrom);
+        disableFutureDates(dateTo);
+        
+        setupTableColumns();
         setupFilterValues();
-
-    
-        // -------- LOAD FIRST 10 RECORDS --------
+        setupButtons();
+        enableValidation();
+        
         loadMoreData();
-
-        // -------- AUTOLOAD ON SCROLL --------
-       
+        enableAutoLoad();
+        
+    
     }  
+    
     // TABLE SETUP
     private void setupTableColumns(){
         
@@ -113,22 +120,31 @@ public class RecordsListController {
         
         
     }
-    
+
     //SETUP ALL FILTER VAUES
     private void setupFilterValues() {
+        comboEmotion.getItems().add("All");
         comboEmotion.getItems().addAll(Emotion.EmotionName.values());
+        
+        comboType.getItems().add("All");
         comboType.getItems().addAll(Emotion.EmotionType.values());
+        
+        comboRoom.getItems().add("All");
         comboRoom.getItems().addAll(
-                RoomFactory.getListRooms()
+                RoomFactory.getListRooms().stream()
+                .map(Room::getName)
+                .toList()
         );
         
-        for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 10; i++) {
             comboIntensityMin.getItems().add(i);
             comboIntensityMax.getItems().add(i);
         }
-       
+
+        comboIntensityMin.setPromptText("Any");
+        comboIntensityMax.setPromptText("Any");
     }
-   
+    
     // SETUP ALL BUTTONS
     private void setupButtons(){
         btnBack.setOnAction(e ->
@@ -159,9 +175,7 @@ public class RecordsListController {
         isLoading = true;
 
         List<EmotionalReport> list = recordsManager.getPaged(currentOffset, batchSize);
-        
-        System.out.println("Lista devuelta" + list);
-        
+                
         if (list.isEmpty()) {
             noMoreData = true;
 
@@ -205,38 +219,252 @@ public class RecordsListController {
     }
    
     // FILTER LOGIC 
-   private void applyFilters() {
+    private void applyFilters() {
+
         ReportFilter filter = new ReportFilter();
 
-        if (comboEmotion.getValue() != null)
-            filter.setEmotionName(comboEmotion.getValue());
+        // ---- EMOTION NAME ----
+        Object selectedEmotion = comboEmotion.getValue();
+        if (selectedEmotion instanceof Emotion.EmotionName en) {
+            filter.setEmotionName(en);
+        }
 
-        if (comboType.getValue() != null)
-            filter.setEmotionType(comboType.getValue());
+        // ---- EMOTION TYPE ----
+        Object selectedType = comboType.getValue();
+        if (selectedType instanceof Emotion.EmotionType et) {
+            filter.setEmotionType(et);
+        }
 
-        if (comboRoom.getValue() != null)
-            filter.setRoom(comboRoom.getValue());
+        // ---- ROOM ----
+        String room = (String) comboRoom.getValue();
+        if (room != null && !room.equals("All")) {
+            filter.setRoom(room);
+        }
 
-        if (comboIntensityMin.getValue() != null)
-            filter.setMinIntensity(comboIntensityMin.getValue());
+        // ---- INTENSITY MIN ----
+        Object minObj = comboIntensityMin.getValue();
+        if (minObj instanceof Integer min) {
+            filter.setMinIntensity(min);
+        }
 
-        if (comboIntensityMax.getValue() != null)
-            filter.setMaxIntensity(comboIntensityMax.getValue());
+        // ---- INTENSITY MAX ----
+        Object maxObj = comboIntensityMax.getValue();
+        if (maxObj instanceof Integer max) {
+            filter.setMaxIntensity(max);
+        }
 
-        if (dateFrom.getValue() != null)
+        // ---- DATE SINCE ----
+        if (dateFrom.getValue() != null) {
             filter.setFromDate(dateFrom.getValue().atStartOfDay());
+        }
 
-        if (dateTo.getValue() != null)
-            filter.setToDate(dateTo.getValue().atTime(23,59,59));
+        // ---- DATE UNTIL ----
+        if (dateTo.getValue() != null) {
+            filter.setToDate(dateTo.getValue().atTime(23, 59, 59));
+        }
 
-        List<EmotionalReport> filtered = recordsManager.filter(filter);
+        // -------- CALL DAO --------
+        List<EmotionalReport> results = recordsManager.filter(filter);
 
-        if (filtered.isEmpty()) {
-            AlertUtils.warning("No Results", "No data found for selected filters.");
+        // -------- UPDATE TABLE --------
+        tableRecords.getItems().clear();
+
+        if (results.isEmpty()) {
+            AlertUtils.info("No Data", "No records found for the selected filters.");
             return;
         }
 
-        tableRecords.getItems().setAll(filtered);
-        noMoreData = true; // avoid autoload overwriting filter
+        tableRecords.getItems().addAll(results);
+    }
+    
+    /// VALIDATION FILTERS
+    // --- control flags ---
+    private boolean isUpdatingEmotion = false;
+    private boolean isUpdatingDate = false;
+    private boolean isUpdatingIntensity = false;
+
+
+    private void enableIntensityValidation() {
+
+        comboIntensityMin.valueProperty().addListener((obs, oldVal, min) -> {
+            if (isUpdatingIntensity) return;
+            isUpdatingIntensity = true;
+
+            try {
+                Integer currentMax = comboIntensityMax.getValue();
+
+                comboIntensityMax.getItems().clear();
+                if (min != null) {
+                    for (int i = min; i <= 10; i++) comboIntensityMax.getItems().add(i);
+                } else {
+                    for (int i = 1; i <= 10; i++) comboIntensityMax.getItems().add(i);
+                }
+
+                if (currentMax != null &&
+                    (min == null || currentMax.compareTo(min) >= 0)) {
+
+                    comboIntensityMax.setValue(currentMax);
+                } else {
+                    comboIntensityMax.setValue(null);
+                }
+
+            } finally {
+                isUpdatingIntensity = false;
+            }
+        });
+
+
+        comboIntensityMax.valueProperty().addListener((obs, oldVal, max) -> {
+            if (isUpdatingIntensity) return;
+            isUpdatingIntensity = true;
+
+            try {
+                Integer currentMin = comboIntensityMin.getValue();
+
+                comboIntensityMin.getItems().clear();
+                if (max != null) {
+                    for (int i = 1; i <= max; i++) comboIntensityMin.getItems().add(i);
+                } else {
+                    for (int i = 1; i <= 10; i++) comboIntensityMin.getItems().add(i);
+                }
+
+                if (currentMin != null &&
+                    (max == null || currentMin.compareTo(max) <= 0)) {
+
+                    comboIntensityMin.setValue(currentMin);
+                } else {
+                    comboIntensityMin.setValue(null);
+                }
+
+            } finally {
+                isUpdatingIntensity = false;
+            }
+        });
+    }
+
+    private void enableEmotionTypeValidation() {
+
+        comboEmotion.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (isUpdatingEmotion) return;
+            isUpdatingEmotion = true;
+
+            try {
+                // Emotion selected → restrict Type
+                if (newVal instanceof Emotion.EmotionName en) {
+
+                    Emotion.EmotionType inferred = emotionManager.determineType(en);
+
+                    comboType.getItems().setAll("All", inferred);
+                    comboType.setValue(inferred);
+
+                } else {
+                    comboType.getItems().setAll("All");
+                    comboType.getItems().addAll(Emotion.EmotionType.values());
+                    comboType.setValue("All");
+                }
+            } finally {
+                isUpdatingEmotion = false;
+            }
+        });
+
+        comboType.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (isUpdatingEmotion) return;
+            isUpdatingEmotion = true;
+
+            try {
+                // Type selected → restrict Emotion
+                if (newVal instanceof Emotion.EmotionType et) {
+
+                    comboEmotion.getItems().setAll("All");
+
+                    for (Emotion.EmotionName n : Emotion.EmotionName.values()) {
+                        if (emotionManager.determineType(n) == et)
+                            comboEmotion.getItems().add(n);
+                    }
+
+                    comboEmotion.setValue("All");
+
+                } else {
+                    comboEmotion.getItems().setAll("All");
+                    comboEmotion.getItems().addAll(Emotion.EmotionName.values());
+                    comboEmotion.setValue("All");
+                }
+            } finally {
+                isUpdatingEmotion = false;
+            }
+        });
+    }
+    
+    private void enableDatesValidation() {
+
+        dateFrom.valueProperty().addListener((obs, old, from) -> {
+            if (isUpdatingDate) return;
+            isUpdatingDate = true;
+
+            try {
+                if (from != null) {
+                    if (dateTo.getValue() != null && dateTo.getValue().isBefore(from)) {
+                        dateTo.setValue(null);
+                    }
+
+                    dateTo.setDayCellFactory(picker -> new DateCell() {
+                        @Override
+                        public void updateItem(LocalDate d, boolean empty) {
+                            super.updateItem(d, empty);
+                            setDisable(empty || d.isBefore(from));
+                        }
+                    });
+                }
+            } finally {
+                isUpdatingDate = false;
+            }
+        });
+
+        dateTo.valueProperty().addListener((obs, old, to) -> {
+            if (isUpdatingDate) return;
+            isUpdatingDate = true;
+
+            try {
+                if (to != null) {
+                    if (dateFrom.getValue() != null && dateFrom.getValue().isAfter(to)) {
+                        dateFrom.setValue(null);
+                    }
+
+                    dateFrom.setDayCellFactory(picker -> new DateCell() {
+                        @Override
+                        public void updateItem(LocalDate d, boolean empty) {
+                            super.updateItem(d, empty);
+                            setDisable(empty || d.isAfter(to));
+                        }
+                    });
+                }
+            } finally {
+                isUpdatingDate = false;
+            }
+        });
+    }
+       
+    private void enableValidation(){
+        enableDatesValidation();
+        enableEmotionTypeValidation();
+        enableIntensityValidation();
+    }
+    
+    // DISABLE DATES FOR FUTURE DAYS
+    private void disableFutureDates(DatePicker picker) {
+        picker.setDayCellFactory(p -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+
+                if (empty) return;
+
+                // ❌ Deshabilitar fechas futuras
+                if (date.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #F0F0F0;");
+                }
+            }
+        });
     }
 }

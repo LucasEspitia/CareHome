@@ -30,7 +30,7 @@ public class MusicSelectionController {
         Preferences prefs = prefsManager.getPreferences();
 
         Emotion.EmotionType type =
-                EmotionManager.determineType(RegisterSession.emotionName);
+                emotionManager.determineType(RegisterSession.emotionName);
 
         List<Song> songs = prefs.getPreferredMusic(type);
         listSongs.getItems().addAll(songs);

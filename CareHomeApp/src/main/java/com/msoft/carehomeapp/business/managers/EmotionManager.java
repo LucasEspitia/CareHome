@@ -84,7 +84,7 @@ public class EmotionManager {
         return new Response(musicMsg, lightsMsg, activities, draft);
     }
     
-    public static Emotion.EmotionType determineType(Emotion.EmotionName n) {
+    public Emotion.EmotionType determineType(Emotion.EmotionName n) {
         switch (n) {
             case HAPPY, EXCITED,  INSPIRED, MOTIVATED:
                 return Emotion.EmotionType.POSITIVE;
@@ -130,7 +130,5 @@ public class EmotionManager {
         //Save the report 
         recordsManager.saveReport(report);
     }
-    
-    //public void logMinimalReport(Emotion.EmotionName emotionName, in intensity, Room room, Ac)
-    
+        
 }  
