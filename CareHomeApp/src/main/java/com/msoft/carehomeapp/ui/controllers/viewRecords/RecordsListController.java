@@ -115,10 +115,7 @@ public class RecordsListController {
             new SimpleStringProperty(
                 c.getValue().getActivity().getText()
             )
-        );
-             
-        
-        
+        );        
     }
 
     //SETUP ALL FILTER VAUES
@@ -164,12 +161,22 @@ public class RecordsListController {
         btnApplyFilters.setOnAction(e -> applyFilters());
 
         btnExport.setOnAction(e -> {
-            AlertUtils.info("Export", "Export feature not implemented yet (optional).");
+            SceneSwitcher.switchScene(e, "/viewRecords/ExportRecordsView.fxml");
+            
         });
     }
     
     // LOAD MORE RECORDS
     private void loadMoreData() {
+        
+        //If export is cancelled.
+        if(RecordsSession.getCurrentFilter() != null){
+            List<EmotionalReport> results = recordsManager.filter(RecordsSession.getCurrentFilter());
+            tableRecords.getItems().addAll(results);
+            
+            return;
+        }
+        
         if (isLoading || noMoreData) return;
 
         isLoading = true;
@@ -196,6 +203,7 @@ public class RecordsListController {
         currentOffset = 0;
         noMoreData = false;
         tableRecords.getItems().clear();
+        RecordsSession.setCurrentFilter(null);
         loadMoreData();
     }
     
@@ -273,7 +281,8 @@ public class RecordsListController {
             AlertUtils.info("No Data", "No records found for the selected filters.");
             return;
         }
-
+        
+        RecordsSession.setCurrentFilter(filter);
         tableRecords.getItems().addAll(results);
     }
     
