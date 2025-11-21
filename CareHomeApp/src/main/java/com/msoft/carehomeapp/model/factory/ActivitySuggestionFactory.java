@@ -39,4 +39,8 @@ public class ActivitySuggestionFactory {
     public static List<ActivitySuggestion> getSuggestionsFor(Emotion.EmotionType type) {
         return SUGGESTIONS.get(type);
     }
+    
+    public static ActivitySuggestion createUnknownActivity(){
+        return new ActivitySuggestion("Unknown");
+    }
 }

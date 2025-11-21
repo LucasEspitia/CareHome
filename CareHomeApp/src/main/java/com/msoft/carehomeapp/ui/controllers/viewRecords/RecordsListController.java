@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.msoft.carehomeapp.ui.controllers;
+package com.msoft.carehomeapp.ui.controllers.viewRecords;
 
 /**
  *
  * @author lucas
  */
-public class PreferencesController {
+public class RecordsListController {
     
 }

@@ -45,5 +45,9 @@ public class RoomFactory {
         return new Room("Bathroom", null, null);
     }
     
+    public static Room createUnknownRoom(){
+        return new Room("Unknown", null, null);
+    }
+    
 
 }

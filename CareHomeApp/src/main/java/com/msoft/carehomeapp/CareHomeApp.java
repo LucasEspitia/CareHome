@@ -35,7 +35,7 @@ public class CareHomeApp extends Application  {
                 new RecordsManager(recordsDAO);
         
         EmotionManager emotionManager =
-                new EmotionManager(recordsDAO, musicService, lightningService, preferencesManager);
+                new EmotionManager(recordsManager, musicService, lightningService, preferencesManager);
        
         AppContext.init(
                 emotionManager,

@@ -17,13 +17,13 @@ public class HomeController {
     public void initialize(){
         
         btnRegisterMood.setOnAction(e ->
-                SceneSwitcher.switchScene(e, "RegisterEmotionView.fxml")
+                SceneSwitcher.switchScene(e, "/registerEmotion/RegisterEmotionView.fxml")
         );
         btnViewRecords.setOnAction(e ->
-                SceneSwitcher.switchScene(e, "RecordsListView.fxml"));
+                SceneSwitcher.switchScene(e, "/viewRecords/RecordsListView.fxml"));
 
         btnPreferences.setOnAction(e ->
-                SceneSwitcher.switchScene(e, "PreferencesView.fxml"));
+                SceneSwitcher.switchScene(e, "/setPreferences/PreferencesView.fxml"));
 
         
     }

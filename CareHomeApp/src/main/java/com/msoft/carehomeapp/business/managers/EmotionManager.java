@@ -1,9 +1,9 @@
 package com.msoft.carehomeapp.business.managers;
 
-import com.msoft.carehomeapp.data.IRecordsDAO;
 import com.msoft.carehomeapp.business.services.*;
 import com.msoft.carehomeapp.model.factory.ActivitySuggestionFactory;
 import com.msoft.carehomeapp.model.*;
+import com.msoft.carehomeapp.model.factory.RoomFactory;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class EmotionManager {
     
-    private final IRecordsDAO recordsDAO;
+    private final RecordsManager recordsManager;
     private final MusicService musicService;
     private final LightningService lightingService;
     private final PreferencesManager preferencesManager;
@@ -39,12 +39,12 @@ public class EmotionManager {
    
     
     public EmotionManager(
-            IRecordsDAO recordsDAO,
+            RecordsManager recordsManager,
             MusicService musicService,
             LightningService lightningService,
             PreferencesManager preferencesManager
     ){
-       this.recordsDAO = recordsDAO ;
+       this.recordsManager = recordsManager;
        this.musicService = musicService;
        this.lightingService = lightningService;
        this.preferencesManager = preferencesManager;
@@ -84,7 +84,7 @@ public class EmotionManager {
         return new Response(musicMsg, lightsMsg, activities, draft);
     }
     
-     public static Emotion.EmotionType determineType(Emotion.EmotionName n) {
+    public static Emotion.EmotionType determineType(Emotion.EmotionName n) {
         switch (n) {
             case HAPPY, EXCITED,  INSPIRED, MOTIVATED:
                 return Emotion.EmotionType.POSITIVE;
@@ -95,5 +95,42 @@ public class EmotionManager {
         }
     }
     
-       
-}
+    public void logMinimalReport(Emotion.EmotionName emotionName, int intensity){
+        
+        Emotion.EmotionType type = determineType(emotionName);
+        
+        Emotion emotion = new Emotion(emotionName, type);
+        EmotionalState state = new EmotionalState(emotion, intensity);
+        
+        Room unknownRoom = RoomFactory.createUnknownRoom();
+        
+        ActivitySuggestion unknownActivity = ActivitySuggestionFactory.createUnknownActivity();
+        
+        EmotionalReport report = new EmotionalReport(state,
+                unknownRoom, 
+                unknownActivity
+        );
+        //Save the report
+        recordsManager.saveReport(report);
+        
+        };
+    public void logMinimalReport(Emotion.EmotionName emotionName, int intensity, Room room){
+        
+        Emotion.EmotionType type = determineType(emotionName);
+        
+        Emotion emotion = new Emotion(emotionName, type);
+        EmotionalState state = new EmotionalState(emotion, intensity);
+        
+        ActivitySuggestion unknownActivity = ActivitySuggestionFactory.createUnknownActivity();
+        
+        EmotionalReport report = new EmotionalReport(state,
+                room, 
+                unknownActivity
+        );
+        //Save the report 
+        recordsManager.saveReport(report);
+    }
+    
+    //public void logMinimalReport(Emotion.EmotionName emotionName, in intensity, Room room, Ac)
+    
+}  

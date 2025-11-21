@@ -9,7 +9,7 @@
 
 <VBox alignment="CENTER" spacing="15" 
     xmlns:fx="http://javafx.com/fxml" 
-    fx:controller="com.msoft.carehomeapp.ui.controllers.RegisterEmotionController" 
+    fx:controller="com.msoft.carehomeapp.ui.controllers.registerEmotion.RegisterEmotionController" 
     prefWidth="400" prefHeight="420"> 
 
     <Label text="Select your emotion" style="-fx-font-size: 18;" /> 

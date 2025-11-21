@@ -9,7 +9,7 @@
 
 <VBox alignment="CENTER" spacing="15" 
     xmlns:fx="http://javafx.com/fxml" 
-    fx:controller="com.msoft.carehomeapp.ui.controllers.MusicSelectionController" 
+    fx:controller="com.msoft.carehomeapp.ui.controllers.registerEmotion.MusicSelectionController" 
     prefWidth="400" prefHeight="450"> 
 
     <Label text="Select a song" style="-fx-font-size: 18;" /> 

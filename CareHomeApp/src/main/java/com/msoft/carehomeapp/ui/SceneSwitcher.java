@@ -15,23 +15,8 @@ import javafx.scene.Node;
 public class SceneSwitcher {
     
     private static Stage mainStage;
-     
-    public static void switchScene(ActionEvent event, String fxml) {
-        try {
-            FXMLLoader loader = new FXMLLoader(SceneSwitcher.class.getResource("/com/msoft/carehomeapp/ui/" + fxml));
-            Parent root = loader.load();
-            
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-           
-        } catch (IOException e) {
-            System.err.println("Error switching scene: " + e);
-            e.printStackTrace();
-        }
-    }
     
-    public static void setMainStage(Stage stage) {
+        public static void setMainStage(Stage stage) {
         mainStage = stage;
     }
     
@@ -52,4 +37,30 @@ public class SceneSwitcher {
             e.printStackTrace();
         }
     }
+     
+    public static void switchScene(ActionEvent event, String fxml) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        loadScene(stage, fxml);
+    }
+
+    public static void switchScene(Node node, String fxml) {
+        Stage stage = (Stage) node.getScene().getWindow();
+        loadScene(stage, fxml);
+    }
+    
+    private static void loadScene(Stage stage, String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    SceneSwitcher.class.getResource("/com/msoft/carehomeapp/ui/" + fxml)
+            );
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            System.err.println("Error switching scene to: " + fxml);
+            e.printStackTrace();
+        }
+    }
+    
 }

@@ -1,9 +1,8 @@
-package com.msoft.carehomeapp.ui.controllers;
+package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.msoft.carehomeapp.model.Emotion;
-import com.msoft.carehomeapp.ui.RegisterSession;
 import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 
@@ -35,7 +34,7 @@ public class RegisterEmotionController {
             RegisterSession.emotionName = comboEmotion.getValue();
             RegisterSession.intensity = (int) sliderIntensity.getValue();
             
-            SceneSwitcher.switchScene(e, "SelectRoomView.fxml");
+            SceneSwitcher.switchScene(e, "/registerEmotion/SelectRoomView.fxml");
         });
     }
     
