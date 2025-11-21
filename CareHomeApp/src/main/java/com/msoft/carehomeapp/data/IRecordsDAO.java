@@ -1,6 +1,5 @@
 package com.msoft.carehomeapp.data;
 
-import com.google.gson.JsonObject;
 import com.msoft.carehomeapp.model.*;
 import java.util.List;
 
@@ -14,8 +13,12 @@ public interface IRecordsDAO {
     
     List<EmotionalReport> getAll();
     
+    List<EmotionalReport> getLastN(int n);
+    
+    List<EmotionalReport> getPaged(int offset, int limit);
+    
     List<EmotionalReport> filter(ReportFilter filter);
     
-    List<EmotionalReport> fetchReports(JsonObject where);
-       
+    List<EmotionalReport> filterPaged(ReportFilter filter, int offset, int limit);
+    
 }

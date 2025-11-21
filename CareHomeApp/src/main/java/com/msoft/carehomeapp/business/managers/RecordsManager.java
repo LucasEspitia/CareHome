@@ -19,7 +19,8 @@ public class RecordsManager {
     public RecordsManager(IRecordsDAO dao) {
         this.recordsDAO = dao;
     }
-
+    
+    // ----------- Methods -------------
     public void saveReport(EmotionalReport report) {
         recordsDAO.save(report);
     }
@@ -28,7 +29,19 @@ public class RecordsManager {
         return recordsDAO.getAll();
     }
 
+    public List<EmotionalReport> getLastN(int n) {
+        return recordsDAO.getLastN(n);
+    }
+    
+    public List<EmotionalReport> getPaged(int offset, int limit) {
+        return recordsDAO.getPaged(offset, limit);
+    }
+
     public List<EmotionalReport> filter(ReportFilter filter) {
         return recordsDAO.filter(filter);
     }
+    
+    public List<EmotionalReport> filterPaged(ReportFilter filter, int offset, int limit) {
+        return recordsDAO.filterPaged(filter, offset, limit);
+    }   
 }

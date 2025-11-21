@@ -11,6 +11,8 @@ import com.google.gson.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -26,6 +28,7 @@ public class RecordsDAOImpl implements IRecordsDAO {
     private final Gson gson = new Gson();
     
     //-----------------SingleTone----------------------
+    
     //Instance
     private static RecordsDAOImpl instance;
     //Constructor
@@ -37,14 +40,152 @@ public class RecordsDAOImpl implements IRecordsDAO {
         }
         return instance;
     }
+        
+    // ---------- LAYER 1 → URL BUILDER ----------------
+    private String buildUrl(Map<String, String> params) throws Exception {
+
+        StringBuilder url = new StringBuilder(BASE_URL);
+
+        if (!params.isEmpty()) {
+            url.append("?");
+            boolean first = true;
+            for (var entry : params.entrySet()) {
+                if (!first) url.append("&");
+                first = false;
+                url.append(entry.getKey())
+                   .append("=")
+                   .append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
+            }
+        }
+
+        return url.toString();
+    }
    
+    //----------- LAYER 2 → HTTP GET -------------------
+    private JsonObject httpGet(String urlString) throws Exception {
+
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("X-Parse-Application-Id", APP_ID);
+        conn.setRequestProperty("X-Parse-REST-API-Key", API_KEY);
+
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+        JsonObject response = gson.fromJson(reader, JsonObject.class);
+
+        conn.disconnect();
+        return response;
+    }
+
+    // ---------- LAYER 3 → JSON PARSER -----------------
+    private List<EmotionalReport> parseReports(JsonObject response) {
+
+        List<EmotionalReport> list = new ArrayList<>();
+
+        if (response == null || !response.has("results"))
+            return list;
+
+        JsonArray results = response.getAsJsonArray("results");
+
+        for (JsonElement element : results) {
+            JsonObject obj = element.getAsJsonObject();
+
+            // ----- Emotion -----
+            Emotion.EmotionName name =
+                    Emotion.EmotionName.valueOf(obj.get("emotionName").getAsString());
+
+            Emotion.EmotionType type =
+                    Emotion.EmotionType.valueOf(obj.get("emotionType").getAsString());
+
+            Emotion emotion = new Emotion(name, type);
+
+            // ----- State -----
+            int intensity = obj.get("intensity").getAsInt();
+            EmotionalState state = new EmotionalState(emotion, intensity);
+
+            // ----- Room -----
+            Room room = new Room(obj.get("room").getAsString());
+
+            // ----- Activity -----
+            ActivitySuggestion activity =
+                    new ActivitySuggestion(obj.get("activity").getAsString());
+
+            // ----- Date -----
+            String iso = obj.getAsJsonObject("date").get("iso").getAsString();
+            LocalDateTime date = LocalDateTime.parse(iso.substring(0, iso.length() - 1));
+
+            // ----- Report -----
+            EmotionalReport report = new EmotionalReport(state, room, activity, date);
+
+            list.add(report);
+        }
+
+        return list;
+    }
+    
+     // Where JSON builder (used by filter & filterPaged)
+    private JsonObject buildWhere(ReportFilter filter) {
+
+        JsonObject where = new JsonObject();
+
+        // Emotion Name
+        if (filter.getEmotionName() != null)
+            where.addProperty("emotionName", filter.getEmotionName().name());
+
+        // Emotion Type
+        if (filter.getEmotionType() != null)
+            where.addProperty("emotionType", filter.getEmotionType().name());
+
+        // Room
+        if (filter.getRoom() != null)
+            where.addProperty("room", filter.getRoom());
+
+        // Date Range
+        if (filter.getFromDate() != null || filter.getToDate() != null) {
+
+            JsonObject dateFilter = new JsonObject();
+
+            if (filter.getFromDate() != null) {
+                JsonObject gte = new JsonObject();
+                gte.addProperty("__type", "Date");
+                gte.addProperty("iso", filter.getFromDate().toString());
+                dateFilter.add("$gte", gte);
+            }
+
+            if (filter.getToDate() != null) {
+                JsonObject lte = new JsonObject();
+                lte.addProperty("__type", "Date");
+                lte.addProperty("iso", filter.getToDate().toString());
+                dateFilter.add("$lte", lte);
+            }
+
+            where.add("date", dateFilter);
+        }
+
+        // Intensity
+        if (filter.getMinIntensity() != null || filter.getMaxIntensity() != null) {
+            JsonObject intFilter = new JsonObject();
+
+            if (filter.getMinIntensity() != null)
+                intFilter.addProperty("$gte", filter.getMinIntensity());
+
+            if (filter.getMaxIntensity() != null)
+                intFilter.addProperty("$lte", filter.getMaxIntensity());
+
+            where.add("intensity", intFilter);
+        }
+
+        return where;
+    }
+    
     @Override
     public void save(EmotionalReport report) {
         try {
             URL url = new URL(BASE_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            System.out.println("POST URL = " + BASE_URL);
-
 
             conn.setRequestMethod("POST");
             conn.setRequestProperty("X-Parse-Application-Id", APP_ID);
@@ -52,6 +193,7 @@ public class RecordsDAOImpl implements IRecordsDAO {
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 
+            // ---- BUILD JSON BODY ----
             JsonObject json = new JsonObject();
             json.addProperty("emotionName", report.getEmotionalState().getEmotion().getName().name());
             json.addProperty("emotionType", report.getEmotionalState().getEmotion().getType().name());
@@ -59,159 +201,120 @@ public class RecordsDAOImpl implements IRecordsDAO {
             json.addProperty("room", report.getRoom().getName());
             json.addProperty("activity", report.getActivity().getText());
 
-            
             JsonObject dateObj = new JsonObject();
             dateObj.addProperty("__type", "Date");
             dateObj.addProperty("iso", report.getDate().toString());
             json.add("date", dateObj);
 
-            try(OutputStream os = conn.getOutputStream()){
-                os.write(json.toString().getBytes());
+            // ---- SEND ----
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(json.toString().getBytes(StandardCharsets.UTF_8));
             }
 
             int code = conn.getResponseCode();
             System.out.println("Back4App response: " + code);
 
             conn.disconnect();
-        } catch (IOException e){
-            System.err.println("Error saving reports: " + e);        }
-    }
-
-    @Override
-    public List<EmotionalReport> getAll() {
-       return fetchReports(null);
-    }
-    
-    @Override
-    public List<EmotionalReport> filter(ReportFilter filter) {
-
-        JsonObject where = new JsonObject();
-
-        // --- FILTER EMOTION NAME ---
-        if (filter.getEmotionName() != null) {
-            where.addProperty("emotionName", filter.getEmotionName().name());
-        }
-
-        // --- FILTER EMOTION TYPE ---
-        if (filter.getEmotionType() != null) {
-            where.addProperty("emotionType", filter.getEmotionType().name());
-        }
-
-        // --- FILTER ROOM ---
-        if (filter.getRoom() != null) {
-            where.addProperty("room", filter.getRoom());
-        }
-
-        // --- FILTER DATE RANGE ---
-        if (filter.getFromDate() != null || filter.getToDate() != null) {
-
-            JsonObject dateFilter = new JsonObject();
-
-            // Lower bound
-            if (filter.getFromDate() != null) {
-                JsonObject gteDate = new JsonObject();
-                gteDate.addProperty("__type", "Date");
-                gteDate.addProperty("iso", filter.getFromDate().toString());
-                dateFilter.add("$gte", gteDate);
-            }
-
-            // Upper bound
-            if (filter.getToDate() != null) {
-                JsonObject lteDate = new JsonObject();
-                lteDate.addProperty("__type", "Date");
-                lteDate.addProperty("iso", filter.getToDate().toString());
-                dateFilter.add("$lte", lteDate);
-            }
-
-            where.add("date", dateFilter);
-        }
-
-        // --- FILTER INTENSITY ---
-        if (filter.getMinIntensity() != null || filter.getMaxIntensity() != null) {
-
-            JsonObject intensityFilter = new JsonObject();
-
-            if (filter.getMinIntensity() != null) {
-                intensityFilter.addProperty("$gte", filter.getMinIntensity());
-            }
-
-            if (filter.getMaxIntensity() != null) {
-                intensityFilter.addProperty("$lte", filter.getMaxIntensity());
-            }
-
-            where.add("intensity", intensityFilter);
-        }
-
-        return fetchReports(where);
-    }
-
-
-    @Override
-    public List<EmotionalReport> fetchReports(JsonObject where) {
-
-        List<EmotionalReport> list = new ArrayList<>();
-
-        try {
-            String urlString = BASE_URL;
-
-            // Apply filters if exists
-            if (where != null) {
-                String whereEncoded = URLEncoder.encode(where.toString(), StandardCharsets.UTF_8);
-                urlString += "?where=" + whereEncoded;
-            }
-
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-Parse-Application-Id", APP_ID);
-            conn.setRequestProperty("X-Parse-REST-API-Key", API_KEY);
-
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-
-                JsonObject response = gson.fromJson(reader, JsonObject.class);
-
-                JsonArray results = response.getAsJsonArray("results");
-
-                for (JsonElement element : results) {
-                    JsonObject obj = element.getAsJsonObject();
-
-                    // ------ EMOTION ------
-                    Emotion.EmotionName name =
-                            Emotion.EmotionName.valueOf(obj.get("emotionName").getAsString());
-                    Emotion.EmotionType type =
-                            Emotion.EmotionType.valueOf(obj.get("emotionType").getAsString());
-                    Emotion emotion = new Emotion(name, type);
-
-                    // ------ STATE ------
-                    int intensity = obj.get("intensity").getAsInt();
-                    EmotionalState state = new EmotionalState(emotion, intensity);
-
-                    // ------ ROOM ------
-                    Room room = new Room(obj.get("room").getAsString());
-                    
-                    // ------ Activity --------
-                    ActivitySuggestion activity = new ActivitySuggestion(obj.get("activity").getAsString());
-                    // ------ DATE ------
-                    JsonObject dateObj = obj.getAsJsonObject("date"); // <-- correct
-                    String iso = dateObj.get("iso").getAsString();
-                    LocalDateTime date = LocalDateTime.parse(iso.substring(0, iso.length() - 1)); 
-                    // Remove final 'Z' to parse to LocalDateTime
-
-                    // ------ REPORT ------
-                    EmotionalReport report = new EmotionalReport(state, room, activity, date);
-
-                    list.add(report);
-                }
-            }
-
-            conn.disconnect();
 
         } catch (IOException e) {
-            System.err.println("Error fetching reports: " + e);
+            System.err.println("Error saving report: " + e);
         }
+    }
+  
+    @Override
+    public List<EmotionalReport> getAll() {
+        try {
+            Map<String, String> params = new HashMap<>();
+            params.put("order", "-date");
 
-        return list;
+            String url = buildUrl(params);
+            JsonObject response = httpGet(url);
+
+            return parseReports(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
     }
 
+    @Override
+    public List<EmotionalReport> getLastN(int n) {
+        try {
+            Map<String, String> params = new HashMap<>();
+            params.put("limit", String.valueOf(n));
+            params.put("order", "-date");
+
+            String url = buildUrl(params);
+            JsonObject response = httpGet(url);
+
+            return parseReports(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    @Override
+    public List<EmotionalReport> getPaged(int offset, int limit) {
+        try {
+            Map<String, String> params = new HashMap<>();
+            params.put("limit", String.valueOf(limit));
+            params.put("skip", String.valueOf(offset));
+            params.put("order", "-date");
+
+            String url = buildUrl(params);
+            JsonObject response = httpGet(url);
+
+            return parseReports(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    @Override
+    public List<EmotionalReport> filter(ReportFilter filter) {
+        try {
+            JsonObject where = buildWhere(filter);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("where", where.toString());
+            params.put("order", "-date");
+
+            String url = buildUrl(params);
+            JsonObject response = httpGet(url);
+
+            return parseReports(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    @Override
+    public List<EmotionalReport> filterPaged(ReportFilter filter, int offset, int limit) {
+        try {
+            JsonObject where = buildWhere(filter);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("where", where.toString());
+            params.put("limit", String.valueOf(limit));
+            params.put("skip", String.valueOf(offset));
+            params.put("order", "-date");
+
+            String url = buildUrl(params);
+            JsonObject response = httpGet(url);
+
+            return parseReports(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+    
 }
