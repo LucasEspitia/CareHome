@@ -6,6 +6,7 @@ import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
+import com.msoft.carehomeapp.business.services.NotificationService;
 import com.msoft.carehomeapp.model.*;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import javafx.animation.PauseTransition;
@@ -16,7 +17,9 @@ public class ActivitySelectionController {
     @FXML private ListView<ActivitySuggestion> listActivities;
     @FXML private Button btnConfirm;
     
-    private final EmotionManager emotionManager = AppContext.getEmotionManager();
+    private final EmotionManager emotionManager = AppContext.getEmotionManager();    
+    private final NotificationService notificationService = new NotificationService();
+
     private final PauseTransition inactivityTimer = new PauseTransition(Duration.seconds(60));
     
 
@@ -45,10 +48,14 @@ public class ActivitySelectionController {
             EmotionalReport draft = response.getDraftReport();
             draft.setActivity(chosen);
 
-            recordsManager.saveReport(draft);           
+            recordsManager.saveReport(draft);     
+            
+            
             AlertUtils.confirm("Save Succesfully", 
                     "The emotional state has been succesfully saved :)"
             );
+            //Try the notification scheduler
+            notificationService.tryStartUC02(draft);
             
             RegisterSession.reset();
             SceneSwitcher.switchScene(e, "HomeView.fxml");
@@ -63,7 +70,7 @@ public class ActivitySelectionController {
         );
         
         AlertUtils.infoNonBlocking("Session expired", 
-                "No Song was selected in 60 seconds.\nA minimal report was saved."
+                "No Activity was selected in 60 seconds.\nA minimal report was saved."
         );
         
         SceneSwitcher.switchScene(btnConfirm, "HomeView.fxml");

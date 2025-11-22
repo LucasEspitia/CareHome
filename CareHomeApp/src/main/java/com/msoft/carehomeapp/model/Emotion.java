@@ -23,7 +23,8 @@ public class Emotion {
     public static enum EmotionType {
         POSITIVE,
         NEGATIVE,
-        NEUTRAL
+        NEUTRAL;
+        
     };
     
     public Emotion(EmotionName displayName, EmotionType type){
@@ -31,7 +32,15 @@ public class Emotion {
         this.type = type;
     }
   
-    public EmotionName getName() { return displayName; }
-    public EmotionType getType() { return type; }
+    public EmotionName getName() { 
+        return displayName; 
+    }
+    public EmotionType getType() {
+        return type;
+    }
+    public boolean isPositive(){
+        return this.type == EmotionType.POSITIVE;
+    }
+   
    
 }

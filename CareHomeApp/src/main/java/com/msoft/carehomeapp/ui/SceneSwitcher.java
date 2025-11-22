@@ -49,6 +49,32 @@ public class SceneSwitcher {
         loadScene(stage, fxml);
     }
     
+    public static <T> void switchScene(String fxml,  
+                                 java.util.function.Consumer<T> controllerInit) {
+    try {
+        FXMLLoader loader = new FXMLLoader(
+                SceneSwitcher.class.getResource("/com/msoft/carehomeapp/ui/" + fxml)
+        );
+
+        Parent root = loader.load();
+        T controller = loader.getController();
+
+        if (controllerInit != null)
+            controllerInit.accept(controller);
+
+        Stage popup = new Stage();
+        popup.setScene(new Scene(root)); 
+        popup.setResizable(false);
+        popup.initOwner(mainStage); 
+        popup.show();
+
+    } catch (Exception e) {
+        System.err.println("Error opening stage: " + fxml);
+        e.printStackTrace();
+    }
+}
+
+    
     private static void loadScene(Stage stage, String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(

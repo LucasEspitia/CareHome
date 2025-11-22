@@ -21,7 +21,11 @@ public class EmotionalState {
         this.intensity  = intensity;
     }
     // --------------- Getters---- ------------
-    public Emotion getEmotion(){ return this.emotion;}
-    public int getIntensity(){return this.intensity;}
+    public Emotion getEmotion(){
+        return this.emotion;
+    }
+    public int getIntensity(){
+        return this.intensity;
+    }
     
 }

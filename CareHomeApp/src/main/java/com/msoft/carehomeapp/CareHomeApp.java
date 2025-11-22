@@ -26,6 +26,7 @@ public class CareHomeApp extends Application  {
         //Bussiness Services
         MusicService musicService = new MusicService();
         LightningService lightningService = new LightningService();
+        NotificationService notiService = new NotificationService();
         
         //Managers
         PreferencesManager preferencesManager = 
@@ -36,7 +37,8 @@ public class CareHomeApp extends Application  {
         
         EmotionManager emotionManager =
                 new EmotionManager(recordsManager, musicService, lightningService, preferencesManager);
-       
+                
+        
         AppContext.init(
                 emotionManager,
                 preferencesManager,
@@ -44,7 +46,8 @@ public class CareHomeApp extends Application  {
         );
            
         SceneSwitcher.setMainStage(stage);
-        SceneSwitcher.swichTo("HomeView.fxml");
+        //SceneSwitcher.swichTo("HomeView.fxml");
+        SceneSwitcher.swichTo("notifications/NotificationSettingsView.fxml");
         stage.show();
     }
     
