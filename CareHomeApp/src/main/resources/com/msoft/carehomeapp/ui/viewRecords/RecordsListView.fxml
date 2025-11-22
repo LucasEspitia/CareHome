@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" 
-fx:controller="com.msoft.carehomeapp.ui.controllers.viewRecords.RecordsListController" 
+fx:controller="com.msoft.carehomeapp.controllers.viewRecords.RecordsListController" 
 prefWidth="800" prefHeight="600"> 
 
     <!-- TOP: Filters --> 

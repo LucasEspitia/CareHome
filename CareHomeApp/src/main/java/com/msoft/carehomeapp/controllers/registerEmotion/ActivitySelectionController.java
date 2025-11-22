@@ -1,8 +1,8 @@
-package com.msoft.carehomeapp.ui.controllers.registerEmotion;
+package com.msoft.carehomeapp.controllers.registerEmotion;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import com.msoft.carehomeapp.ui.SceneSwitcher;
+import com.msoft.carehomeapp.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
@@ -55,6 +55,7 @@ public class ActivitySelectionController {
                     "The emotional state has been succesfully saved :)"
             );
             //Try the notification scheduler
+           
             notificationService.tryStartUC02(draft);
             
             RegisterSession.reset();

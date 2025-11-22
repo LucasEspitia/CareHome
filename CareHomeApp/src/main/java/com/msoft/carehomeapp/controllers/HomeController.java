@@ -1,8 +1,7 @@
-package com.msoft.carehomeapp.ui.controllers;
+package com.msoft.carehomeapp.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import com.msoft.carehomeapp.ui.SceneSwitcher;
 /**
  *
  * @author lucas

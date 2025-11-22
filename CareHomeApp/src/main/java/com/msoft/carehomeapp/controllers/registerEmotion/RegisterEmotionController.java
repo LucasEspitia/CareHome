@@ -1,9 +1,9 @@
-package com.msoft.carehomeapp.ui.controllers.registerEmotion;
+package com.msoft.carehomeapp.controllers.registerEmotion;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.msoft.carehomeapp.model.Emotion;
-import com.msoft.carehomeapp.ui.SceneSwitcher;
+import com.msoft.carehomeapp.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 
 /**

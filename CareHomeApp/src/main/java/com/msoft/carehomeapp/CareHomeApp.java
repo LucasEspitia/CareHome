@@ -4,9 +4,7 @@ import com.msoft.carehomeapp.data.*;
 import com.msoft.carehomeapp.data.implementation.*;
 import com.msoft.carehomeapp.business.managers.*;
 import com.msoft.carehomeapp.business.services.*;
-import com.msoft.carehomeapp.model.factory.ActivitySuggestionFactory;
-import com.msoft.carehomeapp.model.factory.RoomFactory;
-import com.msoft.carehomeapp.ui.SceneSwitcher;
+import com.msoft.carehomeapp.controllers.SceneSwitcher;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -26,7 +24,7 @@ public class CareHomeApp extends Application  {
         //Bussiness Services
         MusicService musicService = new MusicService();
         LightningService lightningService = new LightningService();
-        NotificationService notiService = new NotificationService();
+        NotificationService notificationService = new NotificationService();
         
         //Managers
         PreferencesManager preferencesManager = 
@@ -42,17 +40,16 @@ public class CareHomeApp extends Application  {
         AppContext.init(
                 emotionManager,
                 preferencesManager,
-                recordsManager
+                recordsManager,
+                notificationService
         );
            
         SceneSwitcher.setMainStage(stage);
-        //SceneSwitcher.swichTo("HomeView.fxml");
-        SceneSwitcher.swichTo("notifications/NotificationSettingsView.fxml");
+        SceneSwitcher.swichTo("HomeView.fxml");
         stage.show();
     }
     
     public static void main(String[] args) {
-        launch(args);
-        
+        launch(args);       
     }
 }

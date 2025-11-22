@@ -1,5 +1,7 @@
-package com.msoft.carehomeapp.ui;
+package com.msoft.carehomeapp.controllers;
 
+import com.msoft.carehomeapp.controllers.notifications.NotificationSettingsController;
+import com.msoft.carehomeapp.model.NotificationScheduleConfig;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.stage.Modality;
 
 /**
  *
@@ -49,32 +52,38 @@ public class SceneSwitcher {
         loadScene(stage, fxml);
     }
     
-    public static <T> void switchScene(String fxml,  
-                                 java.util.function.Consumer<T> controllerInit) {
+    public static NotificationScheduleConfig openModal(String fxml, String title) {
     try {
         FXMLLoader loader = new FXMLLoader(
                 SceneSwitcher.class.getResource("/com/msoft/carehomeapp/ui/" + fxml)
         );
 
         Parent root = loader.load();
-        T controller = loader.getController();
 
-        if (controllerInit != null)
-            controllerInit.accept(controller);
+        // controller genérico
+        Object controller = loader.getController();
 
-        Stage popup = new Stage();
-        popup.setScene(new Scene(root)); 
-        popup.setResizable(false);
-        popup.initOwner(mainStage); 
-        popup.show();
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.setScene(new Scene(root));
+        
+        stage.showAndWait(); 
 
+        
+        if (controller instanceof NotificationSettingsController ctrl) {
+            return ctrl.getFinalConfig();
+        }
+
+        return null;
     } catch (Exception e) {
-        System.err.println("Error opening stage: " + fxml);
         e.printStackTrace();
+        return null;
     }
 }
-
     
+ 
     private static void loadScene(Stage stage, String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(

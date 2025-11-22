@@ -1,8 +1,8 @@
-package com.msoft.carehomeapp.ui.controllers.notifications;
+package com.msoft.carehomeapp.controllers.notifications;
 
 import com.msoft.carehomeapp.business.managers.WellnessNotificationScheduler;
 import com.msoft.carehomeapp.model.NotificationScheduleConfig;
-import com.msoft.carehomeapp.ui.SceneSwitcher;
+import com.msoft.carehomeapp.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import com.msoft.carehomeapp.ui.utils.PromptRestore;
 import javafx.fxml.FXML;
@@ -24,9 +24,9 @@ public class NotificationSettingsController {
     @FXML private Button clearTypeBtn;
     @FXML private Button saveBtn;
     
-    private final WellnessNotificationScheduler scheduler =
-            new WellnessNotificationScheduler();
-        
+    private NotificationScheduleConfig finalConfig;
+
+            
     public void initialize(){
         frequencyCombo.getItems().addAll("10 min", "15 min", "20 min");
         repeatCombo.getItems().addAll(1, 2, 3, 4, 5);
@@ -50,6 +50,10 @@ public class NotificationSettingsController {
         enableResetValues();
          
     };
+
+    public NotificationScheduleConfig getFinalConfig() {
+        return finalConfig;
+    }
     
     private void validateInput(){        
         NotificationScheduleConfig.NotificationType 
@@ -68,25 +72,23 @@ public class NotificationSettingsController {
         
         String freq = frequencyCombo.getValue();  
         if(freq != null){
-           int minutes = Integer.parseInt(freq.replace(" min", ""));
+            System.out.print("Changing Default Value for frequency.\n");
+            int minutes = Integer.parseInt(freq.replace(" min", ""));
             confNoti.setFrequency(minutes);
         }
         
         
         Integer repeat = repeatCombo.getValue();
         if(repeat != null){
-            System.out.print("Changing Default Value for repeat.");
+            System.out.print("Changing Default Value for repeat.\n");
             confNoti.setRepeat(repeat);
         }
-        //Calling scheduler
-        scheduler.scheduleNotifications(confNoti);
         
-        AlertUtils.confirm("Schedule Succesfully", 
-                    "Notifications scheduled: first reminder in "
-                            + confNoti.getFrequencyMinutes() 
-                            + "minutes."
-        );
-        SceneSwitcher.switchScene(repeatCombo, "HomeView.fxml");
+        // Save in controller
+        this.finalConfig = confNoti;
+
+        // Close modal
+        saveBtn.getScene().getWindow().hide();
     }
     
     private void enableResetValues() {

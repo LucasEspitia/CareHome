@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.ui.controllers.viewRecords;
+package com.msoft.carehomeapp.controllers.viewRecords;
 
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
@@ -8,7 +8,7 @@ import com.msoft.carehomeapp.model.EmotionalReport;
 import com.msoft.carehomeapp.model.ReportFilter;
 import com.msoft.carehomeapp.model.Room;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
-import com.msoft.carehomeapp.ui.SceneSwitcher;
+import com.msoft.carehomeapp.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
