@@ -7,33 +7,34 @@ import com.msoft.carehomeapp.model.*;
  *
  * @author lucas
  */
+/**
+ * Executes lighting actions on devices.
+ * Does NOT test devices. No UC-07 here.
+ */
 public class LightningService {
-    
+
     public String applyLightingForRoom(Room room, Emotion.EmotionType type, Preferences prefs) {
+        if (room == null || prefs == null || type == null) {
+            return "[LightingService] Invalid input. Skipping lighting adjustment.";
+        }
+
         LightDevice light = room.getLight();
-        
-        //UC01 - Includes UC07: Test Light Connection
-        //UC07-2a: Device does not respond
-        if(light == null){
+        if (light == null) {
             return "[LightingService] No light device in " + room.getName() +
                    ". Skipping lighting adjustment.";
         }
-        
-        if(!light.testConnection()){
-            return "[LightingService] Light connection failed in " + room.getName() +
-                   ". Skipping lighting adjustment.";           
-        }
-        //Get color according the preferences of the user
+
         String color = prefs.getPreferredLighting(type);
-        
-        //Check for Debugging
+
         if (color == null) {
-            System.out.println("[LightingService] No lighting preference found for" + type);
+            System.out.println("[LightingService] No lighting preference found for: " + type);
+            color = "white"; // fallback simple
         }
-        
-        //All ok -> Adjust light
+
         light.setColor(color);
-        System.out.print("Adjusting Lights");
-        return null; //No message. Lights are adjusted.
+        System.out.println("[LightingService] Adjusting lights to " + color +
+                           " in " + room.getName());
+
+        return null; 
     }
 }

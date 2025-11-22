@@ -45,6 +45,4 @@ public class ManagerNotification {
     public static void showOnlyVisual(String visualMsg) {
         System.out.println("[VISUAL ONLY] " + visualMsg);
     }
-
-    
 }

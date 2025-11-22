@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.msoft.carehomeapp.business.managers;
 
 import com.msoft.carehomeapp.data.IRecordsDAO;
@@ -30,10 +26,12 @@ public class RecordsManager {
     }
 
     public List<EmotionalReport> getLastN(int n) {
+        if (n <= 0) return List.of();
         return recordsDAO.getLastN(n);
     }
     
     public List<EmotionalReport> getPaged(int offset, int limit) {
+        if (offset < 0 || limit <= 0) return List.of();
         return recordsDAO.getPaged(offset, limit);
     }
 
@@ -42,6 +40,7 @@ public class RecordsManager {
     }
     
     public List<EmotionalReport> filterPaged(ReportFilter filter, int offset, int limit) {
+        if (offset < 0 || limit <= 0) return List.of();
         return recordsDAO.filterPaged(filter, offset, limit);
     }   
 }

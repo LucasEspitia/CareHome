@@ -38,7 +38,6 @@ public class LightDevice implements SmartDevice {
     //----------- Setters ----------------
     public void setColor(String color) {
         this.currentColor = color;
-        System.out.println("[LightDevice] Light color set to: " + color);
     } 
     
     //----------- Methods ----------------

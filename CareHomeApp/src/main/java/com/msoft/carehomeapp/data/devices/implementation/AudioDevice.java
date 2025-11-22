@@ -43,7 +43,6 @@ public class AudioDevice implements SmartDevice {
     
     public void play(String songTitle) {
         this.currentSong = songTitle;
-        System.out.println("[SpeakerDevice] Playing: " + songTitle);
     }
 
 }

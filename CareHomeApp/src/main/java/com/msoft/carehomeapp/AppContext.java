@@ -1,5 +1,6 @@
 package com.msoft.carehomeapp;
 
+import com.msoft.carehomeapp.business.managers.DeviceManager;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.PreferencesManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
@@ -15,12 +16,15 @@ public class AppContext {
     private static PreferencesManager preferencesManager;
     private static RecordsManager recordsManager;
     private static NotificationService notificationService;
+    private static DeviceManager deviceManager;
 
     public static void init(
         EmotionManager em,
         PreferencesManager pm,
         RecordsManager rm, 
-        NotificationService ns){
+        NotificationService ns,
+        DeviceManager dm
+    ){
         
         if(emotionManager != null) 
             throw new IllegalStateException("AppContext already initialized");
@@ -29,6 +33,7 @@ public class AppContext {
         preferencesManager = pm;
         recordsManager = rm;   
         notificationService = ns;
+        deviceManager = dm;
     }
     
     public static EmotionManager getEmotionManager() {
@@ -42,8 +47,12 @@ public class AppContext {
     public static RecordsManager getRecordsManager() {
         return recordsManager;
     }
+    public static DeviceManager getDeviceManager(){
+        return deviceManager;
+    }
     
     public static NotificationService getNotificationService() {
        return notificationService;
     }
+  
 }

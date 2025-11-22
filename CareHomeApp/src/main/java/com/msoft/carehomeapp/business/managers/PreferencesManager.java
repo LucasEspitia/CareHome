@@ -27,13 +27,15 @@ public class PreferencesManager {
         Preferences loaded = preferencesDAO.loadPreferences();
         Preferences defaults = PreferencesFactory.createDefaultPreferences();
         
+        boolean hasSavedPrefs = loaded != null;
+
         Preferences merged = new Preferences();
         
         for(Emotion.EmotionType type: Emotion.EmotionType.values()){
             // -------- MUSIC MERGE -------
             //Loading Songs from the DAO and Factory
             List<Song> userSongs =
-                    loaded != null ? loaded.getPreferredMusic(type) : null;
+                    hasSavedPrefs ? loaded.getPreferredMusic(type) : null;
             
             List<Song> defaultSongs = defaults.getPreferredMusic(type);
             
@@ -53,7 +55,7 @@ public class PreferencesManager {
             
             //------- LIGHT MERGE -------
             String userLight = 
-                    loaded != null ? loaded.getPreferredLighting(type) : null;
+                    hasSavedPrefs ? loaded.getPreferredLighting(type) : null;
             
             if(userLight != null){
                 merged.setPreferredLighting(type, userLight);
@@ -63,7 +65,7 @@ public class PreferencesManager {
         }
             
         // ------ Notifications --------
-        if (loaded != null) {
+        if (hasSavedPrefs) {
             merged.setNotificationsEnabled(loaded.isNotificationsEnabled());
         } else {
             merged.setNotificationsEnabled(defaults.isNotificationsEnabled());

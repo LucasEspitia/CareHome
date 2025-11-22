@@ -27,21 +27,22 @@ public class CareHomeApp extends Application  {
         NotificationService notificationService = new NotificationService();
         
         //Managers
-        PreferencesManager preferencesManager = 
-                new PreferencesManager(prefsDAO);
-        
-        RecordsManager recordsManager =
-                new RecordsManager(recordsDAO);
+        PreferencesManager preferencesManager = new PreferencesManager(prefsDAO);
+        RecordsManager recordsManager = new RecordsManager(recordsDAO);
+        DeviceTestManager deviceTestManager = new DeviceTestManager();
+        DeviceManager deviceManager = new DeviceManager(lightningService, musicService, deviceTestManager);
         
         EmotionManager emotionManager =
-                new EmotionManager(recordsManager, musicService, lightningService, preferencesManager);
-                
+                new EmotionManager(
+                        recordsManager, preferencesManager, deviceManager);
+        
         
         AppContext.init(
                 emotionManager,
                 preferencesManager,
                 recordsManager,
-                notificationService
+                notificationService,
+                deviceManager
         );
            
         SceneSwitcher.setMainStage(stage);

@@ -3,6 +3,8 @@ package com.msoft.carehomeapp.business.managers;
 import com.msoft.carehomeapp.business.services.*;
 import com.msoft.carehomeapp.model.factory.ActivitySuggestionFactory;
 import com.msoft.carehomeapp.model.*;
+import com.msoft.carehomeapp.model.Emotion.EmotionName;
+import com.msoft.carehomeapp.model.Emotion.EmotionType;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
 import java.util.List;
 
@@ -12,10 +14,12 @@ import java.util.List;
  */
 public class EmotionManager {
     
+    //Inyection 
+    //Managers
+    private final PreferencesManager prefsManager;
     private final RecordsManager recordsManager;
-    private final MusicService musicService;
-    private final LightningService lightingService;
-    private final PreferencesManager preferencesManager;
+    private final DeviceManager deviceManager;
+    
 
     // INNER STATIC RESPONSE CLASS
     public static class Response {
@@ -39,15 +43,13 @@ public class EmotionManager {
    
     
     public EmotionManager(
-            RecordsManager recordsManager,
-            MusicService musicService,
-            LightningService lightningService,
-            PreferencesManager preferencesManager
-    ){
-       this.recordsManager = recordsManager;
-       this.musicService = musicService;
-       this.lightingService = lightningService;
-       this.preferencesManager = preferencesManager;
+        RecordsManager recordsManager,
+        PreferencesManager prefsManager,
+        DeviceManager deviceManager
+    ) {
+        this.recordsManager = recordsManager;
+        this.prefsManager = prefsManager;
+        this.deviceManager = deviceManager;
     }
     
     public Response processEmotion(
@@ -57,26 +59,21 @@ public class EmotionManager {
             Song selectedSong){
         
         // Create emotion & state
-        Emotion emotion = new Emotion(name, determineType(name));
-        EmotionalState state = new EmotionalState(emotion, intensity);
+        EmotionalState state = buildState(name, intensity);
         
         // Get preferences through the manager
-        Preferences prefs = preferencesManager.getPreferences();
+        Preferences prefs = prefsManager.getPreferences();       
         
         // Play Music
-        String musicMsg = musicService.playSelectedSong(room, selectedSong);
+        String musicMsg = deviceManager.applyMusic(room, selectedSong);   
         
-        // Change Lights 
-        String lightsMsg = lightingService.applyLightingForRoom(
-                room, 
-                emotion.getType(),
-                prefs
-        );
-
+        // Adjsust Lights
+        String lightsMsg = deviceManager.applyLighting(room, state.getEmotion().getType(), prefs);
+        
         
         // Get Activitys 
         List<ActivitySuggestion> activities = 
-                ActivitySuggestionFactory.getSuggestionsFor(emotion.getType());
+                ActivitySuggestionFactory.getSuggestionsFor(state.getEmotion().getType());
         
         // Draft report 
         EmotionalReport draft = new EmotionalReport(state, room, null);
@@ -99,8 +96,7 @@ public class EmotionManager {
         
         Emotion.EmotionType type = determineType(emotionName);
         
-        Emotion emotion = new Emotion(emotionName, type);
-        EmotionalState state = new EmotionalState(emotion, intensity);
+        EmotionalState state = buildState(emotionName, intensity);
         
         Room unknownRoom = RoomFactory.createUnknownRoom();
         
@@ -130,5 +126,10 @@ public class EmotionManager {
         //Save the report 
         recordsManager.saveReport(report);
     }
-        
+    
+    private EmotionalState buildState(EmotionName name, int intensity) {
+        EmotionType type = determineType(name);
+        Emotion emotion = new Emotion(name, type);
+        return new EmotionalState(emotion, intensity);
+    }    
 }  

@@ -13,26 +13,18 @@ public class MusicService {
         
         //UC01 - 8: User selected 'No Music'
         if(selectedSong == null){
-            return "[MusicService] User skipped music playback.";
+            return "[SKIP] User skipped music playback.";
         }
         
         AudioDevice audio = room.getAudio();
         
-        //UC01 - 8a: Music playback fails
-        //No connection
-        if(audio == null){
-            return "[MusicService] No speaker in " + room.getName() 
-                    +  ". Music playback unavailable; adjusting lighting only."; 
-        }
-        //Fail test
-        if(!audio.testConnection()){
-            return "[MusicService] Speaker connection failed in " + room.getName()
-                    + ". Music playback unavailable; adjusting lighting only.";
-        }
-        
         // All ok -> playback
         audio.play(selectedSong.getTitle());
-        return null; // No message. Audio playing.
-    }
+        System.out.println("[SpeakerDevice] Playing: " 
+                + selectedSong.getTitle() + 
+                " - " + selectedSong.getArtist()); 
+        
+        return null; //All ok -> No message for Alert
+        }
     
 }
