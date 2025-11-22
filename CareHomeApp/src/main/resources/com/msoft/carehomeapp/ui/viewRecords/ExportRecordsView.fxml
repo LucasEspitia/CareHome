@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.msoft.carehomeapp.controllers.viewRecords.ExportRecordsController"
+      fx:controller="com.msoft.carehomeapp.ui.controllers.viewRecords.ExportRecordsController"
       spacing="15" alignment="CENTER" prefWidth="400">
 
     <padding>

@@ -1,11 +1,11 @@
-package com.msoft.carehomeapp.controllers.viewRecords;
+package com.msoft.carehomeapp.ui.controllers.viewRecords;
 
 
 //import com.msoft.carehomeapp.model.ExportFormat;
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
 import com.msoft.carehomeapp.model.EmotionalReport;
-import com.msoft.carehomeapp.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import com.msoft.carehomeapp.utils.ExportUtility;
 import java.io.File;

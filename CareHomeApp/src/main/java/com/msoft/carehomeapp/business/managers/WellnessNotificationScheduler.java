@@ -58,7 +58,7 @@ public class WellnessNotificationScheduler {
         },
         config.getFrequencyMinutes(),   // initial delay
         config.getFrequencyMinutes(),   // interval
-        TimeUnit.MINUTES);              
+        TimeUnit.SECONDS);              
     }
 
     // Optional -> In future we could set if user wants to cancel this notification.

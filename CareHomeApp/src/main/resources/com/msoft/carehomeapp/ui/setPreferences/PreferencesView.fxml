@@ -9,7 +9,7 @@
 
 <VBox alignment="CENTER" spacing="15" 
         xmlns:fx="http://javafx.com/fxml" 
-        fx:controller="com.msoft.carehomeapp.controllers.setPreferences.PreferencesController" 
+        fx:controller="com.msoft.carehomeapp.ui.controllers.setPreferences.PreferencesController" 
         prefWidth="450" prefHeight="520">  
 
     <Label text="Preferences" style="-fx-font-size: 22;" /> 

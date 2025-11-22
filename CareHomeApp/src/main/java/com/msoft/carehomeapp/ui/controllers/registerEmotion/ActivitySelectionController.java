@@ -1,11 +1,12 @@
-package com.msoft.carehomeapp.controllers.registerEmotion;
+package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import com.msoft.carehomeapp.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
+import com.msoft.carehomeapp.business.managers.WellnessNotificationScheduler;
 import com.msoft.carehomeapp.business.services.NotificationService;
 import com.msoft.carehomeapp.model.*;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
@@ -56,7 +57,13 @@ public class ActivitySelectionController {
             );
             //Try the notification scheduler
            
-            notificationService.tryStartUC02(draft);
+            if (notificationService.shouldTriggerUC02(draft)) {
+                NotificationScheduleConfig config = 
+                    SceneSwitcher.openModal("notifications/NotificationSettingsView.fxml", "Notifications");
+
+                if (config != null)
+                    new WellnessNotificationScheduler().scheduleNotifications(config);
+            }     
             
             RegisterSession.reset();
             SceneSwitcher.switchScene(e, "HomeView.fxml");

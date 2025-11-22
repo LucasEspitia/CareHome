@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.controllers.viewRecords;
+package com.msoft.carehomeapp.ui.controllers.viewRecords;
 
 import com.msoft.carehomeapp.model.ReportFilter;
 

@@ -1,6 +1,6 @@
-package com.msoft.carehomeapp.controllers;
+package com.msoft.carehomeapp.ui.controllers;
 
-import com.msoft.carehomeapp.controllers.notifications.NotificationSettingsController;
+import com.msoft.carehomeapp.ui.controllers.notifications.NotificationSettingsController;
 import com.msoft.carehomeapp.model.NotificationScheduleConfig;
 import java.io.IOException;
 import javafx.event.ActionEvent;

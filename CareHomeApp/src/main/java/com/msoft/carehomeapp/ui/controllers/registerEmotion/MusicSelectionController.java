@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.controllers.registerEmotion;
+package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -6,7 +6,7 @@ import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.PreferencesManager;
 import com.msoft.carehomeapp.model.*;
-import com.msoft.carehomeapp.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 
 import java.util.List;
@@ -54,7 +54,7 @@ public class MusicSelectionController {
             );
             
             if(RegisterSession.response.getMusicMessage() != null 
-                    && checkNoMusic.isSelected()){
+                    && !checkNoMusic.isSelected()){
                 AlertUtils.error("Music playback unavailable", """
                                                                Please check your connections
                                                                Adjusting Lights only.""");

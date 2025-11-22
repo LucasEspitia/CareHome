@@ -1,8 +1,8 @@
-package com.msoft.carehomeapp.controllers.notifications;
+package com.msoft.carehomeapp.ui.controllers.notifications;
 
 import com.msoft.carehomeapp.business.managers.WellnessNotificationScheduler;
 import com.msoft.carehomeapp.model.NotificationScheduleConfig;
-import com.msoft.carehomeapp.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import com.msoft.carehomeapp.ui.utils.PromptRestore;
 import javafx.fxml.FXML;

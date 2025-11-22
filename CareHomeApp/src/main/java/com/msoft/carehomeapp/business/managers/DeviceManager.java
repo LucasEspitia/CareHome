@@ -28,7 +28,7 @@ public class DeviceManager {
     }
 
     public String applyMusic(Room room, Song song) {
-        if(!deviceTestManager.testAudio(room)){
+        if(!deviceTestManager.testAudio(room) && song != null){
             return "[ERROR] Audio test failed for room" + room.getName();
         }
         return musicService.playSelectedSong(room, song);

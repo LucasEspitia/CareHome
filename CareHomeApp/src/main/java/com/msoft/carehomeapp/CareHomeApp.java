@@ -4,7 +4,7 @@ import com.msoft.carehomeapp.data.*;
 import com.msoft.carehomeapp.data.implementation.*;
 import com.msoft.carehomeapp.business.managers.*;
 import com.msoft.carehomeapp.business.services.*;
-import com.msoft.carehomeapp.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

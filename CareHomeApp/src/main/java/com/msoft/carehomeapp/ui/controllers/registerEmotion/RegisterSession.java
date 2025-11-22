@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.controllers.registerEmotion;
+package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.model.*;

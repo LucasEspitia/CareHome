@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.controllers.registerEmotion;
+package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 import com.msoft.carehomeapp.model.Room;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
-import com.msoft.carehomeapp.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 
 /**
