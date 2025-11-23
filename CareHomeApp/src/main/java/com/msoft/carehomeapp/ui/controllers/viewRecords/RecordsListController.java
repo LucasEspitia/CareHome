@@ -8,7 +8,7 @@ import com.msoft.carehomeapp.model.EmotionalReport;
 import com.msoft.carehomeapp.model.ReportFilter;
 import com.msoft.carehomeapp.model.Room;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -59,8 +59,8 @@ public class RecordsListController {
         disableFutureDates(dateFrom);
         disableFutureDates(dateTo);
         
-        setupTableColumns();
-        setupFilterValues();
+        setUpTableColumns();
+        setUpFilterValues();
         setupButtons();
         enableValidation();
         
@@ -71,7 +71,7 @@ public class RecordsListController {
     }  
     
     // TABLE SETUP
-    private void setupTableColumns(){
+    private void setUpTableColumns(){
         
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -119,7 +119,7 @@ public class RecordsListController {
     }
 
     //SETUP ALL FILTER VAUES
-    private void setupFilterValues() {
+    private void setUpFilterValues() {
         comboEmotion.getItems().add("All");
         comboEmotion.getItems().addAll(Emotion.EmotionName.values());
         
@@ -465,10 +465,9 @@ public class RecordsListController {
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-
+                
                 if (empty) return;
-
-                // ❌ Deshabilitar fechas futuras
+                
                 if (date.isAfter(LocalDate.now())) {
                     setDisable(true);
                     setStyle("-fx-background-color: #F0F0F0;");

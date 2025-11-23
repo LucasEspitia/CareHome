@@ -1,4 +1,4 @@
-package com.msoft.carehomeapp.ui.controllers;
+package com.msoft.carehomeapp.ui;
 
 import com.msoft.carehomeapp.ui.controllers.notifications.NotificationSettingsController;
 import com.msoft.carehomeapp.model.NotificationScheduleConfig;
@@ -19,7 +19,7 @@ public class SceneSwitcher {
     
     private static Stage mainStage;
     
-        public static void setMainStage(Stage stage) {
+    public static void setMainStage(Stage stage) {
         mainStage = stage;
     }
     

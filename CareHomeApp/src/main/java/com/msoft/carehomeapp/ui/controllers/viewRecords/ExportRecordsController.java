@@ -5,7 +5,7 @@ package com.msoft.carehomeapp.ui.controllers.viewRecords;
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
 import com.msoft.carehomeapp.model.EmotionalReport;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import com.msoft.carehomeapp.utils.ExportUtility;
 import java.io.File;
@@ -34,69 +34,65 @@ public class ExportRecordsController {
         formatCombo.getItems().addAll("PDF", "CSV");
         includeSuggestionsCheck.setSelected(true);
         exportBtn.setOnAction(e -> confirmExport());
-        cancelBtn.setOnAction(e -> close());
+        cancelBtn.setOnAction(e -> backToList());
 
     }
     
-    private void confirmExport(){
-        if(formatCombo.getValue() == null ){
+    private void confirmExport() {
+        if (formatCombo.getValue() == null) {
             AlertUtils.warning("No Format Selected", 
                     "Please select a file format before proceeding.");
             return;
         }
-        //Get values
-        if(RecordsSession.getCurrentFilter() == null){
-            list = recordsManager.getLastN(50);
-        } else{
-            list = recordsManager.filter(RecordsSession.getCurrentFilter());
-        }
-        
-        if (list.isEmpty()){
+
+        list = resolveRecordsToExport();
+
+        if (list.isEmpty()) {
             AlertUtils.error("No Records Fetched", "Please Try Again.");
             return;
         }
-        
+
         exportingOptions();
-        close();
+        backToList();
     }
+    
+    private List<EmotionalReport> resolveRecordsToExport() {
+        if (RecordsSession.getCurrentFilter() == null) {
+            return recordsManager.getLastN(50);
+        }
+        return recordsManager.filter(RecordsSession.getCurrentFilter());
+    }
+
     
     private void exportingOptions(){
         String selectedFormat = formatCombo.getValue();
         boolean includeSuggestions = includeSuggestionsCheck.isSelected();
         boolean includeEnv = includeEnvSettingsCheck.isSelected();
         boolean includeChart = includeIntensityChartCheck.isSelected();
-        File file = null;
-        boolean ok = false;
         
-        switch(selectedFormat){
-            case "CSV": {
-                file = ExportUtility.chooseExportLocation(exportBtn.getScene().getWindow(), "csv");
-                ok = ExportUtility.generateCSV(
-                        file, list,
-                        includeSuggestions, includeEnv, includeChart
-                    );
-                break;
-            }
-            case "PDF": {
-                file = ExportUtility.chooseExportLocation(exportBtn.getScene().getWindow(), "pdf");
-                ok = ExportUtility.generatePDF(
-                        file, list,
-                        includeSuggestions, includeEnv, includeChart
-                    );
-                break;
-            }
-            default:
-                System.out.println("In development");  
-        }
-         if (!ok) {
-                AlertUtils.error("Error", "Failed to export the file.");
-                     return;
-                }   
+        boolean ok = switch (selectedFormat) {
+                case "CSV" -> exportCSV(includeSuggestions, includeEnv, includeChart);
+                case "PDF" -> exportPDF(includeSuggestions, includeEnv, includeChart);
+                default -> false;
+        };
+        if (!ok) {
+            AlertUtils.error("Error", "Failed to export the file.");
+                return;
+            }   
 
-                AlertUtils.confirm("Success", "The file has been exported successfully!");
+        AlertUtils.confirm("Success", "The file has been exported successfully!");
     }
-    
-    private void close(){
+    private boolean exportCSV(boolean includeSuggestions, boolean includeEnv, boolean includeChart) {
+        File file = ExportUtility.chooseExportLocation(exportBtn.getScene().getWindow(), "csv");
+        return ExportUtility.generateCSV(file, list, includeSuggestions, includeEnv, includeChart);
+    }
+
+    private boolean exportPDF(boolean includeSuggestions, boolean includeEnv, boolean includeChart) {
+        File file = ExportUtility.chooseExportLocation(exportBtn.getScene().getWindow(), "pdf");
+        return ExportUtility.generatePDF(file, list, includeSuggestions, includeEnv, includeChart);
+    }
+
+    private void backToList(){
         SceneSwitcher.switchScene(formatCombo, "/viewRecords/RecordsListView.fxml");
     }
 }

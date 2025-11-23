@@ -6,8 +6,9 @@ import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.PreferencesManager;
 import com.msoft.carehomeapp.model.*;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
+import com.msoft.carehomeapp.ui.utils.HandleInactivity;
 
 import java.util.List;
 import javafx.animation.PauseTransition;
@@ -73,17 +74,11 @@ public class MusicSelectionController {
             SceneSwitcher.switchScene(e, "/registerEmotion/ActivitySelectionView.fxml");
         });
     }
-    public void handleTimeout(){
-        emotionManager.logMinimalReport(
-                RegisterSession.emotionName, 
-                RegisterSession.intensity,
-                RegisterSession.room
+    public void handleTimeout() {
+        HandleInactivity.saveMinimalAndExitWithRoom(
+            emotionManager,
+            "No Song was selected in 60 seconds.\nA minimal report was saved.",
+            btnContinue
         );
-        
-        AlertUtils.infoNonBlocking("Session expired", 
-                "No Song was selected in 60 seconds.\nA minimal report was saved."
-        );
-        
-        SceneSwitcher.switchScene(checkNoMusic, "HomeView.fxml");
     }
 }

@@ -15,13 +15,17 @@ public class LightDevice implements SmartDevice {
     //-------------- Attributes ----------------
     private String deviceID;
     private String deviceBrand;
-    private String currentColor = "white";
+    private String currentColor;
     
     //----------- Constructors ----------------
-    public LightDevice(){}
+    public LightDevice(){
+            this.currentColor = "white";
+    }
     public LightDevice(String deviceID, String deviceBrand){
         this.deviceID = deviceID;
         this.deviceBrand = deviceBrand;
+        this.currentColor = "white";
+
     }
     //----------- Getters ----------------
     public String getCurrentColor() {

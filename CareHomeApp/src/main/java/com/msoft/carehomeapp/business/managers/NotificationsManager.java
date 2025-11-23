@@ -10,7 +10,7 @@ import javafx.application.Platform;
  * @author lucas
  */
 
-public class ManagerNotification {
+public class NotificationsManager {
     /**
      * Show a JavaFX popup message (must run on FX thread).
      * @param title

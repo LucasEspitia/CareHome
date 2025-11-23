@@ -2,7 +2,7 @@ package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.AppContext;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
@@ -10,6 +10,7 @@ import com.msoft.carehomeapp.business.managers.WellnessNotificationScheduler;
 import com.msoft.carehomeapp.business.services.NotificationService;
 import com.msoft.carehomeapp.model.*;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
+import com.msoft.carehomeapp.ui.utils.HandleInactivity;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
@@ -19,13 +20,14 @@ public class ActivitySelectionController {
     @FXML private Button btnConfirm;
     
     private final EmotionManager emotionManager = AppContext.getEmotionManager();    
-    private final NotificationService notificationService = new NotificationService();
+    private final NotificationService notificationService = AppContext.getNotificationService();
+    private final RecordsManager recordsManager = AppContext.getRecordsManager();
 
+    
     private final PauseTransition inactivityTimer = new PauseTransition(Duration.seconds(60));
     
 
 
-    private final RecordsManager recordsManager = AppContext.getRecordsManager();
 
     @FXML
     public void initialize() {
@@ -70,17 +72,11 @@ public class ActivitySelectionController {
         });
     }
     
-    public void handleTimeout(){
-        emotionManager.logMinimalReport(
-                RegisterSession.emotionName, 
-                RegisterSession.intensity,
-                RegisterSession.room
+    public void handleTimeout() {
+        HandleInactivity.saveMinimalAndExitWithRoom(
+            emotionManager,
+            "No Activity was selected in 60 seconds.\nA minimal report was saved.",
+            btnConfirm
         );
-        
-        AlertUtils.infoNonBlocking("Session expired", 
-                "No Activity was selected in 60 seconds.\nA minimal report was saved."
-        );
-        
-        SceneSwitcher.switchScene(btnConfirm, "HomeView.fxml");
     }
 }

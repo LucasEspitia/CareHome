@@ -15,13 +15,16 @@ public class AudioDevice implements SmartDevice {
     private String deviceID;
     private String deviceBrand;
     
-    private String currentSong = null;
+    private String currentSong;
     
     //----------- Constructors ------------
-    public AudioDevice(){}
+    public AudioDevice(){
+        this.currentSong = null;
+    }
     public AudioDevice(String deviceID, String deviceBrand){
         this.deviceID = deviceID;
         this.deviceBrand = deviceBrand;
+        this.currentSong = null;
     }
     //----------- Getters ----------------
     public String getCurrentSong() {

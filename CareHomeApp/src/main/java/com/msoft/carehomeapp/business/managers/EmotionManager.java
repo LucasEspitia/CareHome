@@ -1,6 +1,5 @@
 package com.msoft.carehomeapp.business.managers;
 
-import com.msoft.carehomeapp.business.services.*;
 import com.msoft.carehomeapp.model.factory.ActivitySuggestionFactory;
 import com.msoft.carehomeapp.model.*;
 import com.msoft.carehomeapp.model.Emotion.EmotionName;
@@ -82,14 +81,11 @@ public class EmotionManager {
     }
     
     public Emotion.EmotionType determineType(Emotion.EmotionName n) {
-        switch (n) {
-            case HAPPY, EXCITED,  INSPIRED, MOTIVATED:
-                return Emotion.EmotionType.POSITIVE;
-            case SAD, DEPRESSED, ANXIOUS, FEAR, INSECURE:
-                return Emotion.EmotionType.NEGATIVE;
-            default:
-                return Emotion.EmotionType.NEUTRAL;
-        }
+        return switch (n) {
+            case HAPPY, EXCITED, INSPIRED, MOTIVATED -> Emotion.EmotionType.POSITIVE;
+            case SAD, DEPRESSED, ANXIOUS, FEAR, INSECURE -> Emotion.EmotionType.NEGATIVE;
+            default -> Emotion.EmotionType.NEUTRAL;
+        };
     }
     
     public void logMinimalReport(Emotion.EmotionName emotionName, int intensity){

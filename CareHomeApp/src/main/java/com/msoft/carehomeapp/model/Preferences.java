@@ -5,51 +5,58 @@ import java.util.*;
 public class Preferences {
 
     // Now each EmotionType maps to a LIST of 3 Songs
-    private Map<Emotion.EmotionType, List<Song>> preferredMusic = new HashMap<>();
+    private final Map<Emotion.EmotionType, List<Song>> preferredMusic;
 
-    private Map<Emotion.EmotionType, String> preferredLighting = new HashMap<>();
+    private final Map<Emotion.EmotionType, String> preferredLighting;
 
-    private boolean notificationsEnabled = true;
+    private boolean notificationsEnabled;
 
-    public Preferences() {}
-
-    // MUSIC (3 songs per emotion)
+    public Preferences() {
+        preferredMusic = new HashMap<>();
+        preferredLighting = new HashMap<>();
+        notificationsEnabled = true;
+    }
+    //--- getters -----
     public List<Song> getPreferredMusic(Emotion.EmotionType type) {
         return preferredMusic.getOrDefault(type, new ArrayList<>());
     }
-
-    public void setPreferredMusic(Emotion.EmotionType type, List<Song> songs) {
-        preferredMusic.put(type, songs);
-    }
-
-    public void addPreferredSong(Emotion.EmotionType type, Song song) {
-        preferredMusic.computeIfAbsent(type, k -> new ArrayList<>()).add(song);
-    }
-
-    // LIGHTING
+    
     public String getPreferredLighting(Emotion.EmotionType type) {
         return preferredLighting.get(type);
     }
-
-    public void setPreferredLighting(Emotion.EmotionType type, String lighting) {
-        preferredLighting.put(type, lighting);
+    
+    public Map<Emotion.EmotionType, String> getPreferredLightingMap() {
+        return preferredLighting;
     }
-
-    // NOTIFICATIONS
-    public boolean isNotificationsEnabled() {
-        return notificationsEnabled;
-    }
-
-    public void setNotificationsEnabled(boolean enabled) {
-        this.notificationsEnabled = enabled;
-    }
-
     // Needed for JSON serialization
     public Map<Emotion.EmotionType, List<Song>> getPreferredMusicMap() {
         return preferredMusic;
     }
-
-    public Map<Emotion.EmotionType, String> getPreferredLightingMap() {
-        return preferredLighting;
+    
+    //---- setters ----
+     public void setPreferredMusic(Emotion.EmotionType type, List<Song> songs) {
+        preferredMusic.put(type, songs);
     }
+     
+    
+    public void setPreferredLighting(Emotion.EmotionType type, String lighting) {
+        preferredLighting.put(type, lighting);
+    }
+    
+    public void setNotificationsEnabled(boolean enabled) {
+        this.notificationsEnabled = enabled;
+    }
+    
+    //---- methods ----
+  
+
+    public void addPreferredSong(Emotion.EmotionType type, Song song) {
+        preferredMusic.computeIfAbsent(type, k -> new ArrayList<>()).add(song);
+    }
+    
+    public boolean isNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+
 }

@@ -1,8 +1,6 @@
 package com.msoft.carehomeapp.ui.controllers.notifications;
 
-import com.msoft.carehomeapp.business.managers.WellnessNotificationScheduler;
 import com.msoft.carehomeapp.model.NotificationScheduleConfig;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 import com.msoft.carehomeapp.ui.utils.PromptRestore;
 import javafx.fxml.FXML;
@@ -60,7 +58,7 @@ public class NotificationSettingsController {
                 typeSelected = typeCombo.getValue();
         
         if(typeSelected == null){
-            AlertUtils.warning("No Notification Type Selected", 
+            AlertUtils.warning("Missing Field", 
                     "Please select at least the notification type before continue.");
             return;
         }

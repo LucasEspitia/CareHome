@@ -9,8 +9,9 @@ import javafx.util.Duration;
 
 import com.msoft.carehomeapp.model.Room;
 import com.msoft.carehomeapp.model.factory.RoomFactory;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
+import com.msoft.carehomeapp.ui.utils.HandleInactivity;
 
 /**
  *
@@ -47,17 +48,12 @@ public class SelectRoomController {
             SceneSwitcher.switchScene(e, "/registerEmotion/MusicSelectionView.fxml");
         });
     }
-    private void handleTimeout() {        
-        //Save Minimum log
-        emotionManager.logMinimalReport(
-                RegisterSession.emotionName, 
-                RegisterSession.intensity
+    
+    private void handleTimeout() {
+        HandleInactivity.saveMinimalAndExitNoRoom(
+            emotionManager,
+            "No room was selected in 60 seconds.\nA minimal report was saved.",
+            btnNext
         );
-        
-        AlertUtils.infoNonBlocking("Session expired", 
-                "No room was selected in 60 seconds.\nA minimal report was saved."
-        );
-        
-        SceneSwitcher.switchScene(comboRoom, "HomeView.fxml");
     }
 }

@@ -9,8 +9,8 @@ import com.msoft.carehomeapp.model.ReportFilter;
 public class RecordsSession {
     private static ReportFilter currentFilter;
     
-    public static void setCurrentFilter(ReportFilter report){
-        currentFilter = report;
+    public static void setCurrentFilter(ReportFilter reportFilter){
+        currentFilter = reportFilter;
     }
     public static ReportFilter getCurrentFilter(){
         return currentFilter;

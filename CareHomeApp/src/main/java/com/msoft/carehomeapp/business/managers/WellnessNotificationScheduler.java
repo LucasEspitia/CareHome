@@ -36,16 +36,16 @@ public class WellnessNotificationScheduler {
                 Platform.runLater(() -> {
                     switch (config.getType()) {
                         case POPUP ->
-                            ManagerNotification.showInfo("Wellness Reminder", message);
+                            NotificationsManager.showInfo("Wellness Reminder", message);
 
                         case SOUND ->
-                            ManagerNotification.playSound("notification.wav (not implemented)");
+                            NotificationsManager.playSound("notification.wav (not implemented)");
 
                         case VIBRATION ->
-                            ManagerNotification.playVibration("Vibration (not implemented)");
+                            NotificationsManager.playVibration("Vibration (not implemented)");
 
                         case VISUAL_ONLY ->
-                            ManagerNotification.showOnlyVisual("Visual-only alert → " + message);
+                            NotificationsManager.showOnlyVisual("Visual-only alert → " + message);
                     }
                 });
 
@@ -58,7 +58,7 @@ public class WellnessNotificationScheduler {
         },
         config.getFrequencyMinutes(),   // initial delay
         config.getFrequencyMinutes(),   // interval
-        TimeUnit.SECONDS);              
+        TimeUnit.MINUTES);              
     }
 
     // Optional -> In future we could set if user wants to cancel this notification.

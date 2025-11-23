@@ -3,7 +3,7 @@ package com.msoft.carehomeapp.ui.controllers.registerEmotion;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.msoft.carehomeapp.model.Emotion;
-import com.msoft.carehomeapp.ui.controllers.SceneSwitcher;
+import com.msoft.carehomeapp.ui.SceneSwitcher;
 import com.msoft.carehomeapp.ui.utils.AlertUtils;
 
 /**
@@ -19,6 +19,8 @@ public class RegisterEmotionController {
     @FXML
     public void initialize() {        
         comboEmotion.getItems().addAll(Emotion.EmotionName.values());
+        
+        labelIntensityValue.setText(String.valueOf((int) sliderIntensity.getValue()));
         
         sliderIntensity.valueProperty().addListener((obs, oldV, newV) -> {
         int value = newV.intValue();
@@ -37,5 +39,4 @@ public class RegisterEmotionController {
             SceneSwitcher.switchScene(e, "/registerEmotion/SelectRoomView.fxml");
         });
     }
-    
 }

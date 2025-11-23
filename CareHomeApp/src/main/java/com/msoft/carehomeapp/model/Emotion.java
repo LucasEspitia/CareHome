@@ -10,7 +10,7 @@ package com.msoft.carehomeapp.model;
  */
 
 public class Emotion {
-    private EmotionName displayName;   
+    private EmotionName name;   
     private EmotionType type;
     
     public static enum EmotionName{
@@ -27,13 +27,13 @@ public class Emotion {
         
     };
     
-    public Emotion(EmotionName displayName, EmotionType type){
-        this.displayName = displayName;
+    public Emotion(EmotionName name, EmotionType type){
+        this.name = name;
         this.type = type;
     }
   
     public EmotionName getName() { 
-        return displayName; 
+        return name; 
     }
     public EmotionType getType() {
         return type;

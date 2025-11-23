@@ -19,9 +19,9 @@ public class EmotionalReport {
     private LocalDateTime stampDate;
     
     // --------------- Constructor ------------
-    public EmotionalReport(EmotionalState currentState, Room currentRoom, ActivitySuggestion activity){
-        this.state = currentState;
-        this.room = currentRoom;
+    public EmotionalReport(EmotionalState state, Room room, ActivitySuggestion activity){
+        this.state = state;
+        this.room = room;
         this.activity = activity;
         this.stampDate = LocalDateTime.now();
     }
