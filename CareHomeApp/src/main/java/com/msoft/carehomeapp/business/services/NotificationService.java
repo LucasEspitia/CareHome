@@ -27,15 +27,29 @@ public class NotificationService {
     
     public void send(NotificationScheduleConfig config) {
 
-        String message = "Reminder!\nTake a 5-minute break";
 
         Platform.runLater(() -> {
             switch (config.getType()) {
-                case POPUP -> AlertUtils.info("Wellness Reminder", message);
-                case SOUND -> System.out.println("[SOUND (not implemented)]");
-                case VIBRATION -> System.out.println("[VIBRATION (not implemented)]");
-                case VISUAL_ONLY -> System.out.println("[VISUAL]: (not implemented)");
+                case POPUP -> showPopUp();
+                case SOUND -> sendSound();
+                case VIBRATION -> sendVibration();
+                case VISUAL_ONLY ->sendOnlyVisual();
             }
         });
     }
+    
+    private void showPopUp(){
+        String message = "Reminder!\nTake a 5-minute break";
+        AlertUtils.info("Wellness Reminder", message);
     }
+    
+    private void sendSound(){
+        System.out.println("[SOUND (not implemented)]");
+    }
+    private void sendVibration(){
+        System.out.println("[VIBRATION (not implemented)]");
+    }
+    private void sendOnlyVisual(){
+         System.out.println("[VISUAL]: (not implemented)");
+    }
+}

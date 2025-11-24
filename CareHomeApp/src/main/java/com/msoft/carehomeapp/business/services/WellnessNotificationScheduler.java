@@ -34,7 +34,7 @@ public class WellnessNotificationScheduler {
             }
 
             try {
-                executeNotification(config);
+                notificationService.send(config);
                 sentCount[0]++;
 
             } catch (Exception ex) {
@@ -45,9 +45,6 @@ public class WellnessNotificationScheduler {
         config.getFrequencyMinutes(),   // initial delay
         config.getFrequencyMinutes(),   // interval
         TimeUnit.SECONDS);              
-    }
-    private void executeNotification(NotificationScheduleConfig config) {
-        notificationService.send(config);
     }
 
     // Optional -> In future we could set if user wants to cancel this notification.

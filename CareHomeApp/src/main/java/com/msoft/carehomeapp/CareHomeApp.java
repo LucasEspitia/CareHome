@@ -26,15 +26,13 @@ public class CareHomeApp extends Application  {
         MusicService musicService = new MusicService();
         LightningService lightningService = new LightningService();
         NotificationService notificationService = new NotificationService();
-        WellnessNotificationScheduler scheduler = new WellnessNotificationScheduler(notificationService);
-
         
         //Managers
         PreferencesManager preferencesManager = new PreferencesManager(prefsDAO);
         RecordsManager recordsManager = new RecordsManager(recordsDAO);
         DeviceTestManager deviceTestManager = new DeviceTestManager();
         DeviceManager deviceManager = new DeviceManager(lightningService, musicService, deviceTestManager);
-        NotificationsManager notificationsManager = new NotificationsManager(notificationService, scheduler);
+        NotificationsManager notificationsManager = new NotificationsManager(notificationService);
         
         EmotionManager emotionManager =
                 new EmotionManager(

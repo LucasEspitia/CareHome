@@ -17,10 +17,9 @@ public class NotificationsManager {
     private final NotificationService notiService;
     private final WellnessNotificationScheduler scheduler;
 
-    public NotificationsManager(NotificationService ns,
-                                WellnessNotificationScheduler scheduler) {
+    public NotificationsManager(NotificationService ns) {
         this.notiService = ns;
-        this.scheduler = scheduler;
+        this.scheduler = new WellnessNotificationScheduler(ns);
     }
 
     public boolean tryTrigerSendNotifications(EmotionalReport report){
