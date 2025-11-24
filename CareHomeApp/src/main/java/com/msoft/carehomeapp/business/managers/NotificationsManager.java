@@ -1,7 +1,9 @@
 package com.msoft.carehomeapp.business.managers;
 
-import com.msoft.carehomeapp.ui.utils.AlertUtils;
-import javafx.application.Platform;
+import com.msoft.carehomeapp.business.services.WellnessNotificationScheduler;
+import com.msoft.carehomeapp.business.services.NotificationService;
+import com.msoft.carehomeapp.model.EmotionalReport;
+import com.msoft.carehomeapp.model.NotificationScheduleConfig;
 /**
  * 
  * Handles all forms of notifications (UI popups, sound, vibration, visual only)
@@ -11,38 +13,22 @@ import javafx.application.Platform;
  */
 
 public class NotificationsManager {
-    /**
-     * Show a JavaFX popup message (must run on FX thread).
-     * @param title
-     * @param message
-     */
-    public static void showInfo(String title, String message) {
-        Platform.runLater(() -> {
-            AlertUtils.info(title, message);
-        });
-    }
-    /**
-     * Sound notification (placeholder).Path could be a WAV or MP3 file later.
-     * @param soundInfo
-     */
-    public static void playSound(String soundInfo) {
-        // Future implementation: AudioClip or MediaPlayer
-        System.out.println("[SOUND] " + soundInfo);
-    }
-    /**
-     * Vibration placeholder (useful for Android version or hardware integration).
-     * @param vibrationMsg
-     */
-    public static void playVibration(String vibrationMsg) {
-        // Future implementation: Vibration
-        System.out.println("[VIBRATION] " + vibrationMsg);
+
+    private final NotificationService notiService;
+    private final WellnessNotificationScheduler scheduler;
+
+    public NotificationsManager(NotificationService ns,
+                                WellnessNotificationScheduler scheduler) {
+        this.notiService = ns;
+        this.scheduler = scheduler;
     }
 
-    /**
-     * Visual-only notification (UI banner in the future)
-     * @param visualMsg
-     */
-    public static void showOnlyVisual(String visualMsg) {
-        System.out.println("[VISUAL ONLY] " + visualMsg);
+    public boolean tryTrigerSendNotifications(EmotionalReport report){
+        return notiService.shouldTriggerUC02(report);
+    }
+    
+    public void scheduleNotifications(NotificationScheduleConfig config) {
+        scheduler.scheduleNotifications(config);
     }
 }
+

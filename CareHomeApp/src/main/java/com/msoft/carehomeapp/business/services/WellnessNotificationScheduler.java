@@ -1,15 +1,18 @@
-package com.msoft.carehomeapp.business.managers;
+package com.msoft.carehomeapp.business.services;
 
 import com.msoft.carehomeapp.model.NotificationScheduleConfig;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javafx.application.Platform;
 
 public class WellnessNotificationScheduler {
 
     private ScheduledExecutorService executor;
-
+    private final NotificationService notificationService;
+    
+    public WellnessNotificationScheduler(NotificationService ns) {
+        this.notificationService = ns;
+    }
     public void scheduleNotifications(NotificationScheduleConfig config) {
 
         if (config == null) return;
@@ -31,24 +34,7 @@ public class WellnessNotificationScheduler {
             }
 
             try {
-                String message = "Reminder!\nTake a 5-minute break";
-
-                Platform.runLater(() -> {
-                    switch (config.getType()) {
-                        case POPUP ->
-                            NotificationsManager.showInfo("Wellness Reminder", message);
-
-                        case SOUND ->
-                            NotificationsManager.playSound("notification.wav (not implemented)");
-
-                        case VIBRATION ->
-                            NotificationsManager.playVibration("Vibration (not implemented)");
-
-                        case VISUAL_ONLY ->
-                            NotificationsManager.showOnlyVisual("Visual-only alert → " + message);
-                    }
-                });
-
+                executeNotification(config);
                 sentCount[0]++;
 
             } catch (Exception ex) {
@@ -58,7 +44,10 @@ public class WellnessNotificationScheduler {
         },
         config.getFrequencyMinutes(),   // initial delay
         config.getFrequencyMinutes(),   // interval
-        TimeUnit.MINUTES);              
+        TimeUnit.SECONDS);              
+    }
+    private void executeNotification(NotificationScheduleConfig config) {
+        notificationService.send(config);
     }
 
     // Optional -> In future we could set if user wants to cancel this notification.

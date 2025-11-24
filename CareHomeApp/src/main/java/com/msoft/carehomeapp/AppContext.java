@@ -2,9 +2,9 @@ package com.msoft.carehomeapp;
 
 import com.msoft.carehomeapp.business.managers.DeviceManager;
 import com.msoft.carehomeapp.business.managers.EmotionManager;
+import com.msoft.carehomeapp.business.managers.NotificationsManager;
 import com.msoft.carehomeapp.business.managers.PreferencesManager;
 import com.msoft.carehomeapp.business.managers.RecordsManager;
-import com.msoft.carehomeapp.business.services.NotificationService;
 
 /**
  *
@@ -15,14 +15,14 @@ public class AppContext {
     private static EmotionManager emotionManager;
     private static PreferencesManager preferencesManager;
     private static RecordsManager recordsManager;
-    private static NotificationService notificationService;
+    private static NotificationsManager notificationsManager;
     private static DeviceManager deviceManager;
 
     public static void init(
         EmotionManager em,
         PreferencesManager pm,
         RecordsManager rm, 
-        NotificationService ns,
+        NotificationsManager ns,
         DeviceManager dm
     ){
         
@@ -32,7 +32,7 @@ public class AppContext {
         emotionManager = em;
         preferencesManager = pm;
         recordsManager = rm;   
-        notificationService = ns;
+        notificationsManager = ns;
         deviceManager = dm;
     }
     
@@ -51,8 +51,8 @@ public class AppContext {
         return deviceManager;
     }
     
-    public static NotificationService getNotificationService() {
-       return notificationService;
+    public static NotificationsManager getNotificationManager() {
+       return notificationsManager;
     }
   
 }

@@ -1,5 +1,6 @@
 package com.msoft.carehomeapp;
 
+import com.msoft.carehomeapp.business.services.WellnessNotificationScheduler;
 import com.msoft.carehomeapp.data.*;
 import com.msoft.carehomeapp.data.implementation.*;
 import com.msoft.carehomeapp.business.managers.*;
@@ -25,12 +26,15 @@ public class CareHomeApp extends Application  {
         MusicService musicService = new MusicService();
         LightningService lightningService = new LightningService();
         NotificationService notificationService = new NotificationService();
+        WellnessNotificationScheduler scheduler = new WellnessNotificationScheduler(notificationService);
+
         
         //Managers
         PreferencesManager preferencesManager = new PreferencesManager(prefsDAO);
         RecordsManager recordsManager = new RecordsManager(recordsDAO);
         DeviceTestManager deviceTestManager = new DeviceTestManager();
         DeviceManager deviceManager = new DeviceManager(lightningService, musicService, deviceTestManager);
+        NotificationsManager notificationsManager = new NotificationsManager(notificationService, scheduler);
         
         EmotionManager emotionManager =
                 new EmotionManager(
@@ -41,7 +45,7 @@ public class CareHomeApp extends Application  {
                 emotionManager,
                 preferencesManager,
                 recordsManager,
-                notificationService,
+                notificationsManager,
                 deviceManager
         );
            

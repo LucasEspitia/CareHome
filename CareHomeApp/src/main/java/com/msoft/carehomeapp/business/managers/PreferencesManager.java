@@ -19,6 +19,10 @@ public class PreferencesManager {
     public PreferencesManager(IPreferencesDAO dao) {
         this.preferencesDAO = dao;
     }
+    
+    public void updateOrSavePreferences(Preferences newPrefs){
+        preferencesDAO.saveOrUpdate(newPrefs);
+    }
     /*
     * A method that ensures there are always 3 options for the user to 
     * choose from.    
@@ -26,9 +30,13 @@ public class PreferencesManager {
     public Preferences getPreferences(){
         Preferences loaded = preferencesDAO.loadPreferences();
         Preferences defaults = PreferencesFactory.createDefaultPreferences();
+                     
+        return getMergedPreferences(loaded, defaults);
+    }
+    
+    private Preferences getMergedPreferences(Preferences loaded, Preferences defaults){
         
         boolean hasSavedPrefs = loaded != null;
-
         Preferences merged = new Preferences();
         
         for(Emotion.EmotionType type: Emotion.EmotionType.values()){
@@ -70,11 +78,8 @@ public class PreferencesManager {
         } else {
             merged.setNotificationsEnabled(defaults.isNotificationsEnabled());
         }
+        
         return merged;
-    }
-    
-    public void updateOrSavePreferences(Preferences newPrefs){
-        preferencesDAO.saveOrUpdate(newPrefs);
     }
     
 }
