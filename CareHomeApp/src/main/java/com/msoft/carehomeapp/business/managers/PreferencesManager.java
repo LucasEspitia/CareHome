@@ -27,13 +27,18 @@ public class PreferencesManager {
     * A method that ensures there are always 3 options for the user to 
     * choose from.    
     */
-    public Preferences getPreferences(){
+    public Preferences getPreferences() {
         Preferences loaded = preferencesDAO.loadPreferences();
         Preferences defaults = PreferencesFactory.createDefaultPreferences();
-                     
-        return getMergedPreferences(loaded, defaults);
+
+        return (loaded == null)
+                ? defaults
+                : getMergedPreferences(loaded, defaults);
     }
     
+    public Preferences getPreferencesAPI(){
+        return preferencesDAO.loadPreferences();
+    }
     private Preferences getMergedPreferences(Preferences loaded, Preferences defaults){
         
         boolean hasSavedPrefs = loaded != null;

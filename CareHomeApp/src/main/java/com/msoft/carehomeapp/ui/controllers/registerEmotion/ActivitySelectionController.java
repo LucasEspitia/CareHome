@@ -45,6 +45,10 @@ public class ActivitySelectionController {
             ActivitySuggestion chosen =
                     listActivities.getSelectionModel().getSelectedItem();
             
+            if(chosen == null){
+                AlertUtils.warning("No activity selected", "Please choose an activity before continue.");
+                return;
+            }
                     
             //Timer stop
             inactivityTimer.stop();

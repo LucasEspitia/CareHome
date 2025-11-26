@@ -7,30 +7,59 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
-<VBox alignment="CENTER" spacing="15" 
-        xmlns:fx="http://javafx.com/fxml" 
-        fx:controller="com.msoft.carehomeapp.ui.controllers.setPreferences.PreferencesController" 
-        prefWidth="450" prefHeight="520">  
+<VBox alignment="CENTER" spacing="20"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.msoft.carehomeapp.ui.controllers.setPreferences.PreferencesController"
+      prefWidth="480" prefHeight="600">
 
-    <Label text="Preferences" style="-fx-font-size: 22;" /> 
+    <!-- TITLE -->
+    <Label text="Preferences" style="-fx-font-size: 24; -fx-font-weight: bold;" />
 
-    <HBox spacing="10" alignment="CENTER"> 
-    <Label text="Emotion:"/> 
-    <ComboBox fx:id="comboEmotion" prefWidth="150"/> 
-    </HBox> 
+    <!-- EMOTION -->
+    <HBox spacing="12" alignment="CENTER">
+        <Label text="Emotion:" style="-fx-font-size: 14;" />
+        <ComboBox fx:id="comboEmotion" prefWidth="180"/>
+    </HBox>
 
-    <Label text="Song 1"/> 
-    <TextField fx:id="fieldSong1" prefWidth="250"/> 
+    <!-- SONGS SECTION -->
+    <VBox spacing="12" alignment="CENTER">
+        <Label text="Songs" style="-fx-font-size: 18; -fx-font-weight: bold;" />
 
-    <Label text="Song 2"/> 
-    <TextField fx:id="fieldSong2" prefWidth="250"/> 
+        <VBox spacing="6" alignment="CENTER">
+            <Label text="Song 1"/>
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="fieldSong1Title" promptText="Title" prefWidth="160"/>
+                <TextField fx:id="fieldSong1Artist" promptText="Artist" prefWidth="160"/>
+            </HBox>
+        </VBox>
 
-    <Label text="Song 3"/> 
-    <TextField fx:id="fieldSong3" prefWidth="250"/> 
+        <VBox spacing="6" alignment="CENTER">
+            <Label text="Song 2"/>
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="fieldSong2Title" promptText="Title" prefWidth="160"/>
+                <TextField fx:id="fieldSong2Artist" promptText="Artist" prefWidth="160"/>
+            </HBox>
+        </VBox>
 
-    <Label text="Lights Preference"/> 
-    <TextField fx:id="fieldLights" prefWidth="250"/> 
+        <VBox spacing="6" alignment="CENTER">
+            <Label text="Song 3"/>
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="fieldSong3Title" promptText="Title" prefWidth="160"/>
+                <TextField fx:id="fieldSong3Artist" promptText="Artist" prefWidth="160"/>
+            </HBox>
+        </VBox>
+    </VBox>
 
-    <Button fx:id="btnSave" text="Save" prefWidth="180"/>
+    <!-- LIGHTS -->
+    <VBox spacing="6" alignment="CENTER">
+        <Label text="Lights Preference" />
+        <ComboBox fx:id="comboLights" prefWidth="200"/>
+    </VBox>
+
+    <!-- BUTTONS -->
+    <HBox spacing="20" alignment="CENTER">
+        <Button fx:id="btnBack" text="Back" prefWidth="120"/>
+        <Button fx:id="btnSave" text="Save" prefWidth="120"/>
+    </HBox>
 
 </VBox>

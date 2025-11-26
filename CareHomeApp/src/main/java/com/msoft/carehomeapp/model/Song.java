@@ -22,6 +22,10 @@ public class Song {
     };
     
     public Song(){};
+    public Song(String title, String artist){
+        this.title = title;
+        this.artist = artist;
+    }
         
     public String getGenre(){
       return genre;  
@@ -39,9 +43,15 @@ public class Song {
         return album;
     }
     
+    public boolean isValid() {
+        return title != null && !title.isBlank();
+    }
+    
     @Override
     public String toString() {
-        return title + " - " + artist;
+        return artist == null || artist.isBlank()
+                ? title
+                : title + " - " + artist;
     }
     
     
